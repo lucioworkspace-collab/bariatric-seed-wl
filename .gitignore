@@ -1,0 +1,4 @@
+# Staging de uploads e artefatos de build (não fazem parte do site)
+_incoming/
+site/
+*.zip
