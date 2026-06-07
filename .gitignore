@@ -1,4 +1,4 @@
-# Staging de uploads e artefatos de build (não fazem parte do site)
+node_modules/
 _incoming/
+cbs-site.zip
 site/
-*.zip

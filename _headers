@@ -1,0 +1,12 @@
+# Cloudflare Pages — caching rules
+# Long-lived immutable cache for fingerprint-stable static assets.
+/css/*
+  Cache-Control: public, max-age=31536000, immutable
+/images/*
+  Cache-Control: public, max-age=31536000, immutable
+/js/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML should always revalidate so updates go live immediately.
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate

@@ -33,12 +33,12 @@
   <link rel="stylesheet" type="text/css" href="css/personalizado_02.css">
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
   <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link rel="stylesheet" type="text/css" href="css/tailwind.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
   <link rel="preconnect" href="https://i.ibb.co" crossorigin="">
   <!-- Fonts: single combined request, trimmed weights (faster than 3 separate calls) -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=Roboto:wght@400;700&family=Jost:wght@500;700&family=Source+Serif+4:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="preconnect" href="https://cdn.tailwindcss.com">
 
 
   <style type="text/css">
@@ -212,20 +212,32 @@
 
     /* ===== Live presence ===== */
     .live-dot {
+      position: relative;
       display: inline-block;
       width: 8px;
       height: 8px;
       border-radius: 9999px;
       background: #e0103a;
-      box-shadow: 0 0 0 0 rgba(224, 16, 58, .6);
-      animation: live-pulse 1.6s infinite;
       vertical-align: middle;
     }
 
+    /* Composited pulse (transform/opacity only — no layout/paint thrash) */
+    .live-dot::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 9999px;
+      background: rgba(224, 16, 58, .5);
+      transform: scale(1);
+      opacity: .7;
+      animation: live-pulse 1.6s infinite;
+      will-change: transform, opacity;
+    }
+
     @keyframes live-pulse {
-      0% { box-shadow: 0 0 0 0 rgba(224, 16, 58, .55); }
-      70% { box-shadow: 0 0 0 7px rgba(224, 16, 58, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(224, 16, 58, 0); }
+      0% { transform: scale(1); opacity: .7; }
+      70% { transform: scale(2.6); opacity: 0; }
+      100% { transform: scale(2.6); opacity: 0; }
     }
 
     .livebar {
@@ -435,8 +447,6 @@
     }
   </style>
 
-  <script src="https://cdn.tailwindcss.com"></script>
-
 </head>
 
 <body>
@@ -550,14 +560,14 @@
         <span class="live-dot"></span>
         <span class="livebar__label">LIVE</span>
         <span class="livebar__faces" id="liveFaces">
-          <img src="images/foto1 (3).jpg" alt="" loading="lazy">
-          <img src="images/nova1 (2).jpg" alt="" loading="lazy">
-          <img src="images/foto1 (1).jpg" alt="" loading="lazy">
+          <img src="images/foto1 (3).jpg" width="40" height="40" alt="" loading="lazy">
+          <img src="images/nova1 (2).jpg" width="40" height="40" alt="" loading="lazy">
+          <img src="images/foto1 (1).jpg" width="40" height="40" alt="" loading="lazy">
         </span>
         <span class="livebar__count"><span id="liveViewers">1,247</span> watching now</span>
       </div>
       <div style="display: flex; justify-content: center ;">
-        <img decoding="async" src="images/ADV-PORTAIS.webp" class="img_adv" alt="Advertorial">
+        <img decoding="async" width="750" height="123" src="images/ADV-PORTAIS.webp" class="img_adv" alt="Advertorial">
       </div>
       <!-- ===== Live scarcity widget (revealed with the offer) ===== -->
       <section class="scarcity esconder" id="content4-y">
@@ -584,7 +594,7 @@
               <p class="small mb-0">60 Days, 2 Bottles</p>
               <div class="col-9 mx-auto py-3">
                 <picture>
-                  <img loading="lazy" decoding="async" src="images/2-potes-aff-neuro.png" alt="Neuro Mind Pro — 2 bottles" class="img-fluid">
+                  <img loading="lazy" decoding="async" width="600" height="600" src="images/2-potes-aff-neuro.webp" alt="Neuro Mind Pro — 2 bottles" class="img-fluid">
                 </picture>
               </div>
               <div class="d-flex justify-content-center align-items-center">
@@ -602,7 +612,7 @@
               <p class="small mb-3">60-Day Money-Back Guarantee</p>
               <div class="col-7 mx-auto mb-3">
                 <picture>
-                  <img loading="lazy" decoding="async" src="images/card.png" alt="Card" class="img-fluid">
+                  <img loading="lazy" decoding="async" width="425" height="74" src="images/card.png" alt="Card" class="img-fluid">
                 </picture>
               </div>
               <p class="mb-1">TOTAL: <span class="text-decoration-line-through">$158</span>
@@ -618,7 +628,7 @@
               <p class="small mb-0">180 Days, 6 Bottles</p>
               <div class="col-9 mx-auto py-3">
                 <picture>
-                  <img loading="lazy" decoding="async" src="images/6-potes-aff-neuro.png" alt="Neuro Mind Pro — 6 bottles" class="img-fluid">
+                  <img loading="lazy" decoding="async" width="600" height="600" src="images/6-potes-aff-neuro.webp" alt="Neuro Mind Pro — 6 bottles" class="img-fluid">
                 </picture>
               </div>
               <div class="d-flex justify-content-center align-items-center">
@@ -635,7 +645,7 @@
               <p class="small mb-3">60 Day Money-Back Guarantee</p>
               <div class="col-7 mx-auto mb-3">
                 <picture>
-                  <img loading="lazy" decoding="async" src="images/card.png" alt="Card" class="img-fluid">
+                  <img loading="lazy" decoding="async" width="425" height="74" src="images/card.png" alt="Card" class="img-fluid">
                 </picture>
               </div>
               <p class="mb-1">TOTAL: <span class="text-decoration-line-through">$1074</span>
@@ -651,7 +661,7 @@
               <p class="small mb-0">90 Days, 3 Bottles</p>
               <div class="col-9 mx-auto py-3">
                 <picture>
-                  <img loading="lazy" decoding="async" src="images/3-potes-aff-neuro.png" alt="Neuro Mind Pro — 3 bottles" class="img-fluid">
+                  <img loading="lazy" decoding="async" width="600" height="600" src="images/3-potes-aff-neuro.webp" alt="Neuro Mind Pro — 3 bottles" class="img-fluid">
                 </picture>
               </div>
               <div class="d-flex justify-content-center align-items-center">
@@ -668,7 +678,7 @@
               <p class="small mb-3">60 Day Money-Back Guarantee</p>
               <div class="col-7 mx-auto mb-3">
                 <picture>
-                  <img loading="lazy" decoding="async" src="images/card.png" alt="Card" class="img-fluid">
+                  <img loading="lazy" decoding="async" width="425" height="74" src="images/card.png" alt="Card" class="img-fluid">
                 </picture>
               </div>
               <p class="mb-1">TOTAL: <span class="text-decoration-line-through">$716</span>
@@ -693,7 +703,7 @@
       <div class="cv-auto">
         <h2 class="text-[#646464] text-center text-xl font-[700] my-[20px] lg:text-2xl md:text-xl md:my-[30px]">Scientific References
         </h2>
-        <img loading="lazy" decoding="async" width="1110" height="175" src="images/refs-logos.webp" class="mx-auto mb-[35px]" alt="Scientific reference sources">
+        <img loading="lazy" decoding="async" width="3291" height="236" src="images/refs-logos.webp" class="mx-auto mb-[35px]" alt="Scientific reference sources">
         <div class="text-[12px] text-[#7A7A7A] text-left flex gap-[30px] w-full md:text-[12px] flex-wrap  lg:gap-[30px] lg:flex-row md:flex-row col-728">
           <ol class="list-decimal list-inside w-full flex flex-1 flex-col gap-[15px] justify-between">
             <li>Meta-analysis of <em>Bacopa monnieri</em> for cognitive function — Kongkeaw C, et al. (Journal of Ethnopharmacology, 2014)</li>
@@ -731,7 +741,7 @@
 
       <!-- Composer -->
       <div class="cm-composer">
-        <img class="cm-avatar cm-avatar--sm" src="images/foto1 (1).jpg" loading="lazy" alt="Your avatar">
+        <img width="80" height="80" class="cm-avatar cm-avatar--sm" src="images/foto1 (1).jpg" loading="lazy" alt="Your avatar">
         <input type="text" placeholder="Add a comment…" aria-label="Add a comment">
       </div>
 
@@ -739,7 +749,7 @@
 
         <!-- Comment 1 (with reply thread) -->
         <div class="cm-row">
-          <img class="cm-avatar" src="images/foto1 (3).jpg" loading="lazy" alt="">
+          <img width="80" height="80" class="cm-avatar" src="images/foto1 (3).jpg" loading="lazy" alt="">
           <div class="w-full">
             <div class="cm-bubble">
               <p class="cm-name">Margaret R.
@@ -756,7 +766,7 @@
 
             <div class="cm-replies">
               <div class="cm-row">
-                <img class="cm-avatar cm-avatar--sm" src="images/foto1 (1).jpg" loading="lazy" alt="">
+                <img width="80" height="80" class="cm-avatar cm-avatar--sm" src="images/foto1 (1).jpg" loading="lazy" alt="">
                 <div class="w-full">
                   <div class="cm-bubble">
                     <p class="cm-name">Helen T.</p>
@@ -777,7 +787,7 @@
 
         <!-- Comment 2 -->
         <div class="cm-row">
-          <img class="cm-avatar" src="images/nova1 (2).jpg" loading="lazy" alt="">
+          <img width="80" height="80" class="cm-avatar" src="images/nova1 (2).jpg" loading="lazy" alt="">
           <div class="w-full">
             <div class="cm-bubble">
               <p class="cm-name">Robert · Florida
@@ -796,7 +806,7 @@
 
         <!-- Comment 3 -->
         <div class="cm-row">
-          <img class="cm-avatar" src="images/nova1 (4).jpg" loading="lazy" alt="">
+          <img width="80" height="80" class="cm-avatar" src="images/nova1 (4).jpg" loading="lazy" alt="">
           <div class="w-full">
             <div class="cm-bubble">
               <p class="cm-name">Lauren · 42</p>
@@ -813,7 +823,7 @@
 
         <!-- Comment 4 -->
         <div class="cm-row">
-          <img class="cm-avatar" src="images/foto1 (1).jpg" loading="lazy" alt="">
+          <img width="80" height="80" class="cm-avatar" src="images/foto1 (1).jpg" loading="lazy" alt="">
           <div class="w-full">
             <div class="cm-bubble">
               <p class="cm-name">James K.</p>
@@ -830,7 +840,7 @@
 
         <!-- Hidden comments revealed by "View more" -->
         <div class="cm-row" data-extra hidden>
-          <img class="cm-avatar" src="images/nova1 (2).jpg" loading="lazy" alt="">
+          <img width="80" height="80" class="cm-avatar" src="images/nova1 (2).jpg" loading="lazy" alt="">
           <div class="w-full">
             <div class="cm-bubble">
               <p class="cm-name">Patricia M.</p>
@@ -846,7 +856,7 @@
         </div>
 
         <div class="cm-row" data-extra hidden>
-          <img class="cm-avatar" src="images/foto1 (3).jpg" loading="lazy" alt="">
+          <img width="80" height="80" class="cm-avatar" src="images/foto1 (3).jpg" loading="lazy" alt="">
           <div class="w-full">
             <div class="cm-bubble">
               <p class="cm-name">Don W. · Texas</p>
@@ -958,7 +968,7 @@
           var el = document.createElement('div');
           el.className = 'toast';
           el.innerHTML =
-            '<img class="toast__avatar" src="' + pick(AVATARS) + '" alt="">' +
+            '<img width="40" height="40" class="toast__avatar" src="' + pick(AVATARS) + '" alt="">' +
             '<div class="toast__body">' +
               '<div class="toast__title"><span>' + name + '</span> from ' + state + ' just reserved a ' + kit.label + '</div>' +
               '<div class="toast__meta"><span class="toast__check">✔</span> Verified order · ' + secs + 's ago</div>' +
@@ -985,7 +995,7 @@
           var ts = Date.now(), row = document.createElement('div');
           row.className = 'cm-row cm-new';
           row.innerHTML =
-            '<img class="cm-avatar" src="' + pick(AVATARS) + '" loading="lazy" alt="">' +
+            '<img width="80" height="80" class="cm-avatar" src="' + pick(AVATARS) + '" loading="lazy" alt="">' +
             '<div class="w-full"><div class="cm-bubble">' +
               '<p class="cm-name">' + pick(NAMES) + ' ' + pick(['R.', 'T.', 'M.', 'S.', 'K.', 'W.']) + '</p>' +
               '<p class="cm-text">' + pick(COMMENTS) + '</p></div>' +
@@ -1056,7 +1066,7 @@
           if (!list || RM) { cb(); return; }
           var t = document.createElement('div');
           t.className = 'cm-row cm-typing';
-          t.innerHTML = '<img class="cm-avatar" src="' + pick(AVATARS) + '" loading="lazy" alt="">' +
+          t.innerHTML = '<img width="80" height="80" class="cm-avatar" src="' + pick(AVATARS) + '" loading="lazy" alt="">' +
             '<div><div class="cm-bubble"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>';
           list.insertBefore(t, list.firstChild);
           setTimeout(function () { t.remove(); cb(); }, rand(1600, 2600));
