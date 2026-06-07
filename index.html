@@ -376,6 +376,9 @@
     /* ===== Live VSL stage: LIVE badge + broadcast clock + floating reactions ===== */
     .vsl-stage { position: relative; width: 100%; max-width: 400px; margin: 0 auto; }
 
+    /* Reserve the 16:9 video box up-front so the player can't shift layout (CLS) */
+    .vsl-stage vturb-smartplayer { display: block; width: 100%; aspect-ratio: 16 / 9; }
+
     .vsl-badge {
       position: absolute;
       top: 8px;
