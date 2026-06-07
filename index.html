@@ -291,23 +291,51 @@
     .livebar__count #liveViewers { color: #111; font-weight: 800; }
 
     /* ===== Scarcity widget ===== */
-    /* CBS Featured Deals banner — dark header connected to the scarcity card (DTC) */
+    /* CBS Featured Deals — premium 'official offer' seal, connected to the scarcity card */
     .cbs-deals {
       max-width: 460px;
-      margin: 22px auto 0;
-      background: var(--brand-darker);
-      border-radius: 12px 12px 0 0;
-      padding: 12px 18px;
+      margin: 24px auto 0;
+      background: linear-gradient(180deg, #15171c, #262a31);
+      border-radius: 14px 14px 0 0;
+      padding: 16px 18px 15px;
       text-align: center;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, .20);
+    }
+
+    .cbs-deals__eyebrow {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .55);
+      margin-bottom: 8px;
+      font-family: 'Open Sans', Arial, sans-serif;
     }
 
     .cbs-deals img {
-      height: 30px;
+      height: 34px;
       width: auto;
-      max-width: 82%;
+      max-width: 84%;
       display: inline-block;
       vertical-align: middle;
     }
+
+    .cbs-deals__tag {
+      margin: 11px 0 0;
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: #e6b34d;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      justify-content: center;
+      font-family: 'Open Sans', Arial, sans-serif;
+    }
+
+    .cbs-deals__tag svg { width: 14px; height: 14px; flex: 0 0 auto; }
 
     .cbs-deals + .scarcity {
       margin-top: 0;
@@ -696,9 +724,11 @@
         <img decoding="async" width="750" height="123" src="images/ADV-PORTAIS.webp" class="img_adv" alt="Advertorial">
       </div>
       <!-- ===== Live scarcity widget (revealed with the offer) ===== -->
-      <!-- CBS Featured Deals — DTC header (white logo on dark, connects to scarcity) -->
+      <!-- CBS Featured Deals — premium 'official offer' seal (DTC header) -->
       <div class="cbs-deals esconder">
+        <span class="cbs-deals__eyebrow">As featured on</span>
         <img src="images/cbs-deals.webp" alt="CBS Featured Deals" width="600" height="166" loading="lazy" decoding="async">
+        <p class="cbs-deals__tag"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-1.1 14.3l-3.7-3.7 1.4-1.4 2.3 2.3 4.9-4.9 1.4 1.4z"></path></svg> Verified featured offer · today only</p>
       </div>
       <section class="scarcity esconder" id="content4-y">
         <div class="scarcity__live">
@@ -968,6 +998,25 @@
           </div>
         </div>
 
+        <!-- Comment 5 (male testimonial) -->
+        <div class="cm-row">
+          <img width="80" height="80" class="cm-avatar" src="images/depo11.webp" loading="lazy" alt="">
+          <div class="w-full">
+            <div class="cm-bubble">
+              <p class="cm-name">Robert H.
+                <span class="cm-badge" title="Verified"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.6l2.6 2 3.3.2.9 3.1 2.4 2.3-1.1 3.1 1.1 3.1-2.4 2.3-.9 3.1-3.3.2-2.6 2-2.6-2-3.3-.2-.9-3.1L3.3 17l1.1-3.1L3.3 10.8l2.4-2.3.9-3.1 3.3-.2z"></path><path d="M10.4 14.6l-2.1-2.1-1.4 1.4 3.5 3.5L17 11.3l-1.4-1.4z" fill="#fff"></path></svg></span>
+              </p>
+              <p class="cm-text">Didn&rsquo;t think anything would help at my age. Three weeks in and my wife noticed before I did — I&rsquo;m remembering names again.</p>
+            </div>
+            <div class="cm-meta">
+              <button type="button" class="cm-like">Like</button>
+              <button type="button">Reply</button>
+              <span class="cm-time">13h</span>
+              <span class="cm-likes"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21s-7.5-4.6-10-9.3C.6 8.4 2.3 5 5.6 5c2 0 3.3 1.2 4.4 2.6C11.1 6.2 12.4 5 14.4 5c3.3 0 5 3.4 3.6 6.7C19.5 16.4 12 21 12 21z"></path></svg><span class="cm-count">164</span></span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
     <!-- Live "just reserved" lvt notifications -->
@@ -992,7 +1041,13 @@
           { n: 'Helen T.',    s: 'Ohio',    a: 'images/depo2.webp' },
           { n: 'Lauren P.',   s: 'Arizona', a: 'images/depo3.webp' },
           { n: 'Sandra K.',   s: 'Texas',   a: 'images/depo4.webp' },
-          { n: 'Patricia M.', s: 'Georgia', a: 'images/depo5.webp' }
+          { n: 'Patricia M.', s: 'Georgia', a: 'images/depo5.webp' },
+          { n: 'Linda S.',    s: 'Tennessee', a: 'images/depo6.webp' },
+          { n: 'Carol B.',    s: 'Michigan',  a: 'images/depo7.webp' },
+          { n: 'Susan R.',    s: 'Indiana',   a: 'images/depo8.webp' },
+          { n: 'Diane K.',    s: 'Missouri',  a: 'images/depo9.webp' },
+          { n: 'Nancy W.',    s: 'Kentucky',  a: 'images/depo10.webp' },
+          { n: 'Robert H.',   s: 'Texas',     a: 'images/depo11.webp' }
         ];
         var KITS = [{ label: '6-bottle kit', qty: 2 }, { label: '3-bottle kit', qty: 1 }, { label: '2-bottle kit', qty: 1 }];
         var COMMENTS = [
@@ -1126,7 +1181,7 @@
           var rows = list.querySelectorAll('.cm-row');
           if (rows.length > 14) list.removeChild(rows[rows.length - 1]);
         }
-        (function loopComment() { setTimeout(function () { var p = pick(PEOPLE); showTyping(p, addComment); loopComment(); }, rand(9000, 20000)); })();
+        (function loopComment() { setTimeout(function () { var p = pick(PEOPLE); showTyping(p, addComment); loopComment(); }, rand(30000, 60000)); })();
         setInterval(function () { times.forEach(function (t) { if (t.el && t.el.isConnected) t.el.textContent = relTime(t.ts); }); }, 5000);
 
         /* ---- 5) delegated comment interactions ---- */
