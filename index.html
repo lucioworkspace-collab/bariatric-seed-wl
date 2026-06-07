@@ -48,6 +48,103 @@
     .dflex {
       display: flex;
     }
+
+    /* ===== CBS News styled chrome (header / program / nav) ===== */
+    :root {
+      --cbs-gold: #E0A435;
+    }
+
+    .cbs-statusbar {
+      background: #000;
+      height: 26px;
+      width: 100%;
+    }
+
+    .cbs-header {
+      background: var(--cbs-gold);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      color: #fff;
+    }
+
+    .cbs-header .cbs-icon {
+      background: none;
+      border: 0;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: 0;
+    }
+
+    .cbs-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 22px;
+      letter-spacing: .5px;
+      font-family: 'Open Sans', Arial, sans-serif;
+    }
+
+    .cbs-logo svg {
+      display: block;
+    }
+
+    .cbs-program {
+      background: var(--cbs-gold);
+      color: #fff;
+      padding: 2px 18px 16px;
+    }
+
+    .cbs-program h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1.1;
+      font-family: 'Open Sans', Arial, sans-serif;
+    }
+
+    .cbs-program p {
+      margin: 4px 0 0;
+      font-size: 13px;
+      opacity: .95;
+      line-height: 1.35;
+    }
+
+    .cbs-nav {
+      background: var(--cbs-gold);
+      display: flex;
+      gap: 22px;
+      padding: 4px 18px 14px;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .cbs-nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: 'Open Sans', Arial, sans-serif;
+      flex: 0 0 auto;
+    }
+
+    .cbs-nav a:hover {
+      text-decoration: underline;
+    }
+
+    .cbs-ticker {
+      background: #fff;
+      color: #666;
+      font-size: 12px;
+      padding: 6px 0;
+      border-bottom: 1px solid #e5e5e5;
+    }
   </style>
 
   <script src="https://cdn.tailwindcss.com"></script>
@@ -60,13 +157,62 @@
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
   <main id="container">
-    <header class="red-header">
-      <!-- Título Header -->
-      <h1>HEALTH</h1>
-      <img src="images/lista.png" alt="Menu">
+    <!-- Status bar -->
+    <div class="cbs-statusbar"></div>
+
+    <!-- Header -->
+    <header class="cbs-header">
+      <!-- Menu (grid) -->
+      <button type="button" class="cbs-icon" aria-label="Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <rect x="2" y="2" width="5" height="5" rx="1"></rect>
+          <rect x="9.5" y="2" width="5" height="5" rx="1"></rect>
+          <rect x="17" y="2" width="5" height="5" rx="1"></rect>
+          <rect x="2" y="9.5" width="5" height="5" rx="1"></rect>
+          <rect x="9.5" y="9.5" width="5" height="5" rx="1"></rect>
+          <rect x="17" y="9.5" width="5" height="5" rx="1"></rect>
+          <rect x="2" y="17" width="5" height="5" rx="1"></rect>
+          <rect x="9.5" y="17" width="5" height="5" rx="1"></rect>
+          <rect x="17" y="17" width="5" height="5" rx="1"></rect>
+        </svg>
+      </button>
+
+      <!-- Logo: CBS eye + wordmark -->
+      <a href="#" class="cbs-logo" aria-label="CBS News">
+        <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="32" cy="32" r="31" fill="#fff"></circle>
+          <path d="M5 32c7-11 17-16.5 27-16.5S52 21 59 32c-7 11-17 16.5-27 16.5S12 43 5 32z" fill="var(--cbs-gold)"></path>
+          <circle cx="32" cy="32" r="10.5" fill="#fff"></circle>
+        </svg>
+        <span>CBS NEWS</span>
+      </a>
+
+      <!-- Search -->
+      <button type="button" class="cbs-icon" aria-label="Search">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
+        </svg>
+      </button>
     </header>
+
+    <!-- Program title block -->
+    <div class="cbs-program">
+      <h1>HEALTH</h1>
+      <p>Daily updates on wellness and health<br>Featured reports every morning</p>
+    </div>
+
+    <!-- Category nav -->
+    <nav class="cbs-nav" aria-label="Categories">
+      <a href="#">Arts</a>
+      <a href="#">Books</a>
+      <a href="#">Commentaries</a>
+      <a href="#">Profiles</a>
+      <a href="#">Nature</a>
+    </nav>
+
     <!-- Letreiro -->
-    <marquee>Daily updates on wellness and health - Daily updates on wellness and health - Daily updates on wellness and
+    <marquee class="cbs-ticker">Daily updates on wellness and health - Daily updates on wellness and health - Daily updates on wellness and
       health - Daily updates on wellness and health</marquee>
     <section class="principal">
       <!-- Título principal -->
