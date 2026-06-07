@@ -331,14 +331,9 @@
       width: 38px;
       height: 38px;
       border-radius: 9999px;
-      background: var(--brand);
-      color: #fff;
-      font-weight: 800;
-      font-size: 15px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      object-fit: cover;
       flex: 0 0 auto;
+      background: #eee;
     }
 
     .toast__body { line-height: 1.3; }
@@ -366,8 +361,76 @@
     .cm-row.cm-new { animation: cm-in .5s ease; }
     .cm-row.cm-new .cm-bubble { box-shadow: 0 0 0 2px rgba(205, 137, 0, .35); }
 
+    /* ===== Live VSL stage: LIVE badge + broadcast clock + floating reactions ===== */
+    .vsl-stage { position: relative; width: 100%; max-width: 400px; margin: 0 auto; }
+
+    .vsl-badge {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      z-index: 3;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 0, 0, .62);
+      color: #fff;
+      font-family: 'Open Sans', Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .06em;
+      padding: 4px 9px;
+      border-radius: 6px;
+      pointer-events: none;
+    }
+
+    .vsl-badge .live-dot { background: #fff; }
+    .vsl-badge #vslClock { font-variant-numeric: tabular-nums; opacity: .9; font-weight: 700; }
+
+    .reactions {
+      position: absolute;
+      right: 6px;
+      bottom: 6px;
+      width: 64px;
+      height: 230px;
+      pointer-events: none;
+      z-index: 3;
+      overflow: visible;
+    }
+
+    .reaction {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      line-height: 1;
+      will-change: transform, opacity;
+      animation: float-up 2.8s ease-out forwards;
+    }
+
+    @keyframes float-up {
+      0% { transform: translateY(0) scale(.6); opacity: 0; }
+      15% { opacity: 1; transform: translateY(-14px) scale(1); }
+      100% { transform: translateY(-205px) translateX(var(--dx, -10px)) scale(1.06); opacity: 0; }
+    }
+
+    /* ===== Face pile in the live strip ===== */
+    .livebar__faces { display: inline-flex; }
+    .livebar__faces img { width: 20px; height: 20px; border-radius: 9999px; object-fit: cover; border: 2px solid #fff; margin-left: -7px; }
+    .livebar__faces img:first-child { margin-left: 0; }
+
+    /* ===== "Someone is typing…" indicator ===== */
+    .cm-typing { display: flex; gap: 12px; align-items: center; }
+    .cm-typing .cm-bubble { display: inline-flex; align-items: center; gap: 4px; padding: 12px 14px; }
+    .cm-typing .dot { width: 7px; height: 7px; border-radius: 9999px; background: #9aa0a6; animation: typing 1.2s infinite; }
+    .cm-typing .dot:nth-child(2) { animation-delay: .2s; }
+    .cm-typing .dot:nth-child(3) { animation-delay: .4s; }
+
+    @keyframes typing {
+      0%, 60%, 100% { transform: translateY(0); opacity: .4; }
+      30% { transform: translateY(-4px); opacity: 1; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
-      .live-dot, .cm-row.cm-new { animation: none; }
+      .live-dot, .cm-row.cm-new, .reaction, .cm-typing .dot { animation: none; }
       .toast { transition: opacity .3s; }
     }
   </style>
@@ -447,7 +510,11 @@
       -->
 
         <!-- Vídeo vturb -->
-        <vturb-smartplayer id="vid-6a250fac5306f4786ccf8321" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"></vturb-smartplayer>
+        <div class="vsl-stage">
+          <div class="vsl-badge"><span class="live-dot"></span> LIVE <span id="vslClock">0:00</span></div>
+          <vturb-smartplayer id="vid-6a250fac5306f4786ccf8321" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"></vturb-smartplayer>
+          <div class="reactions" id="reactions" aria-hidden="true"></div>
+        </div>
         <script type="text/javascript"> var s = document.createElement("script"); s.src = "https://scripts.converteai.net/13e4d193-3f66-46ab-8eb0-6e6da4bd133b/players/6a250fac5306f4786ccf8321/v4/player.js", s.async = !0, document.head.appendChild(s); </script>
 
         <!-- Vídeo vturb -->
@@ -482,6 +549,11 @@
       <div class="livebar" aria-hidden="true">
         <span class="live-dot"></span>
         <span class="livebar__label">LIVE</span>
+        <span class="livebar__faces" id="liveFaces">
+          <img src="images/foto1 (3).jpg" alt="" loading="lazy">
+          <img src="images/nova1 (2).jpg" alt="" loading="lazy">
+          <img src="images/foto1 (1).jpg" alt="" loading="lazy">
+        </span>
         <span class="livebar__count"><span id="liveViewers">1,247</span> watching now</span>
       </div>
       <div style="display: flex; justify-content: center ;">
@@ -806,8 +878,9 @@
         var $ = function (s, r) { return (r || document).querySelector(s); };
         var rand = function (a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; };
         var pick = function (a) { return a[rand(0, a.length - 1)]; };
+        var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
-        var NAMES = ['Margaret', 'Robert', 'Helen', 'James', 'Patricia', 'Don', 'Linda', 'George',
+        var NAMES =['Margaret', 'Robert', 'Helen', 'James', 'Patricia', 'Don', 'Linda', 'George',
           'Barbara', 'William', 'Susan', 'Richard', 'Karen', 'Joseph', 'Nancy', 'Charles', 'Betty', 'Thomas'];
         var STATES = ['Florida', 'Texas', 'Ohio', 'Arizona', 'Georgia', 'Michigan', 'Nevada',
           'Tennessee', 'Indiana', 'Missouri', 'Kentucky', 'Oregon', 'Colorado', 'Virginia'];
@@ -885,7 +958,7 @@
           var el = document.createElement('div');
           el.className = 'toast';
           el.innerHTML =
-            '<div class="toast__avatar">' + name.charAt(0) + '</div>' +
+            '<img class="toast__avatar" src="' + pick(AVATARS) + '" alt="">' +
             '<div class="toast__body">' +
               '<div class="toast__title"><span>' + name + '</span> from ' + state + ' just reserved a ' + kit.label + '</div>' +
               '<div class="toast__meta"><span class="toast__check">✔</span> Verified order · ' + secs + 's ago</div>' +
@@ -893,6 +966,7 @@
           wrap.appendChild(el);
           requestAnimationFrame(function () { el.classList.add('is-in'); });
           reduceStock(kit.qty);
+          burst(rand(2, 4));
           setTimeout(function () { el.classList.remove('is-in'); setTimeout(function () { el.remove(); }, 500); }, 5200);
         }
         (function loopToast() { setTimeout(function () { showToast(); loopToast(); }, rand(7000, 16000)); })();
@@ -925,10 +999,11 @@
           times.push({ el: row.querySelector('.cm-time'), ts: ts });
           if (cmCountEl) cmCountEl.textContent = ((parseInt(cmCountEl.textContent.replace(/\D/g, ''), 10) || 0) + 1).toLocaleString();
           setTimeout(function () { row.classList.remove('cm-new'); }, 600);
+          burst(rand(2, 4));
           var rows = list.querySelectorAll('.cm-row');
           if (rows.length > 14) list.removeChild(rows[rows.length - 1]);
         }
-        (function loopComment() { setTimeout(function () { addComment(); loopComment(); }, rand(9000, 20000)); })();
+        (function loopComment() { setTimeout(function () { showTyping(addComment); loopComment(); }, rand(9000, 20000)); })();
         setInterval(function () { times.forEach(function (t) { if (t.el && t.el.isConnected) t.el.textContent = relTime(t.ts); }); }, 5000);
 
         /* ---- 5) delegated comment interactions ---- */
@@ -947,6 +1022,59 @@
             document.querySelectorAll('#cm-list [data-extra]').forEach(function (el) { el.hidden = false; });
             e.target.closest('#cm-load').remove();
           }
+        });
+
+        /* ---- 6) immersion: broadcast clock, floating reactions, typing, face pile, tab title ---- */
+        var BC_KEY = 'cbs_bcast_start_v1';
+        var bstart = parseInt(localStorage.getItem(BC_KEY), 10);
+        if (isNaN(bstart)) { bstart = Date.now() - rand(40, 180) * 60000; try { localStorage.setItem(BC_KEY, bstart); } catch (e) {} }
+        function renderClock() {
+          var el = $('#vslClock'); if (!el) return;
+          var t = Math.max(0, Math.floor((Date.now() - bstart) / 1000));
+          var h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), s = t % 60;
+          el.textContent = (h > 0 ? h + ':' + (m < 10 ? '0' + m : m) : m) + ':' + (s < 10 ? '0' + s : s);
+        }
+        setInterval(renderClock, 1000); renderClock();
+
+        var rlayer = $('#reactions'), EMOJIS = ['❤️', '🧡', '💛', '❤️', '😍', '🙏', '👏'];
+        function emitReaction() {
+          if (!rlayer || RM) return;
+          var e = document.createElement('span');
+          e.className = 'reaction';
+          e.textContent = pick(EMOJIS);
+          e.style.setProperty('--dx', rand(-26, 6) + 'px');
+          e.style.right = rand(0, 34) + 'px';
+          e.style.fontSize = rand(16, 26) + 'px';
+          rlayer.appendChild(e);
+          setTimeout(function () { e.remove(); }, 2900);
+          if (rlayer.childElementCount > 18) rlayer.removeChild(rlayer.firstChild);
+        }
+        function burst(n) { for (var i = 0; i < n; i++) setTimeout(emitReaction, i * 170); }
+        if (!RM) setInterval(function () { if (Math.random() < 0.8) emitReaction(); }, 900);
+
+        function showTyping(cb) {
+          if (!list || RM) { cb(); return; }
+          var t = document.createElement('div');
+          t.className = 'cm-row cm-typing';
+          t.innerHTML = '<img class="cm-avatar" src="' + pick(AVATARS) + '" loading="lazy" alt="">' +
+            '<div><div class="cm-bubble"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>';
+          list.insertBefore(t, list.firstChild);
+          setTimeout(function () { t.remove(); cb(); }, rand(1600, 2600));
+        }
+
+        var faces = $('#liveFaces');
+        if (faces) setInterval(function () {
+          var imgs = faces.querySelectorAll('img');
+          if (imgs.length) imgs[rand(0, imgs.length - 1)].src = pick(AVATARS);
+        }, 5000);
+
+        var origTitle = document.title, flip = null;
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) {
+            flip = setInterval(function () {
+              document.title = (document.title === origTitle ? '🔴 LIVE — new activity' : origTitle);
+            }, 1200);
+          } else if (flip) { clearInterval(flip); flip = null; document.title = origTitle; }
         });
       })();
     </script>
