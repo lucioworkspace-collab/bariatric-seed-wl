@@ -296,6 +296,9 @@
     .livebar__label { font-weight: 800; color: #e0103a; letter-spacing: .08em; }
     .livebar__count { color: #555; font-weight: 600; }
     .livebar__count #liveViewers { color: #111; font-weight: 800; }
+    .livebar__faces { display: inline-flex; }
+    .livebar__faces img { width: 20px; height: 20px; border-radius: 9999px; object-fit: cover; border: 2px solid #fff; margin-left: -7px; }
+    .livebar__faces img:first-child { margin-left: 0; }
 
     /* ===== Scarcity widget ===== */
     /* CBS Featured Deals — premium 'official offer' seal, connected to the scarcity card */
@@ -869,6 +872,11 @@
       <div class="livebar" aria-hidden="true">
         <span class="live-dot"></span>
         <span class="livebar__label">LIVE</span>
+        <span class="livebar__faces">
+          <img src="images/live1.webp" width="120" height="120" alt="" loading="lazy">
+          <img src="images/live2.webp" width="120" height="120" alt="" loading="lazy">
+          <img src="images/live3.webp" width="120" height="120" alt="" loading="lazy">
+        </span>
         <span class="livebar__count"><span id="liveViewers">1,247</span> watching now</span>
       </div>
       <div style="display: flex; justify-content: center ;">
