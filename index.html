@@ -46,10 +46,16 @@
     /* ===== Brand palette (#cd8900) ===== */
     :root {
       --brand: #cd8900;
+      --brand-light: #e09c12;
       --brand-dark: #a66e00;
       --brand-darker: #855700;
-      --ink: #1a1a1a;
+      --ink: #181a1f;
+      --muted: #667085;
+      --line: #e9eaee;
+      --paper: #faf9f7;
     }
+
+    body { background: var(--paper); }
 
     .esconder { display: none; }
     .dflex { display: flex; }
@@ -193,7 +199,7 @@
     .btn-primary-new,
     .btn-new.btn-primary-new,
     .cta.btn-primary-new {
-      background: var(--brand) !important;
+      background: linear-gradient(180deg, var(--brand-light), var(--brand)) !important;
       border-color: var(--brand) !important;
       color: #fff !important;
     }
@@ -536,6 +542,51 @@
       pointer-events: none;
       max-width: min(330px, 86vw);
     }
+
+    /* lift the toasts above the sticky buy bar once it appears */
+    body.has-buybar .lvt-wrap { bottom: 82px; }
+
+    /* ===== Sticky 6-bottle buy bar ===== */
+    .buybar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 9000;
+      max-width: 560px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      background: #fff;
+      border-top: 1px solid #eee;
+      box-shadow: 0 -8px 26px rgba(0, 0, 0, .16);
+      text-decoration: none;
+      transform: translateY(125%);
+      transition: transform .45s cubic-bezier(.2, .8, .2, 1);
+      font-family: 'Open Sans', Arial, sans-serif;
+    }
+
+    .buybar.is-on { transform: translateY(0); }
+    .buybar__info { display: flex; flex-direction: column; line-height: 1.2; }
+    .buybar__label { font-size: 12px; font-weight: 800; color: #111; text-transform: uppercase; letter-spacing: .03em; }
+    .buybar__price { font-size: 12.5px; color: #555; margin-top: 2px; }
+    .buybar__price b { color: var(--brand-darker); font-size: 14px; }
+
+    .buybar__cta {
+      flex: 0 0 auto;
+      background: linear-gradient(180deg, var(--brand-light), var(--brand));
+      color: #fff;
+      font-weight: 800;
+      font-size: 15px;
+      padding: 11px 22px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(133, 87, 0, .30);
+    }
+
+    body.has-buybar { padding-bottom: 72px; }
 
     .lvt {
       display: flex;
@@ -905,24 +956,19 @@
               <p class="rv-card__text">Sharper than I&rsquo;ve felt in ten years. I&rsquo;m actually present with my grandkids again.</p>
             </article>
             <article class="rv-card">
-              <div class="rv-card__top"><img class="rv-card__av" src="images/depo1.webp" width="160" height="160" alt="" loading="lazy" decoding="async"><div><p class="rv-card__name">Linda Marsh <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.6l2.6 2 3.3.2.9 3.1 2.4 2.3-1.1 3.1 1.1 3.1-2.4 2.3-.9 3.1-3.3.2-2.6 2-2.6-2-3.3-.2-.9-3.1L3.3 17l1.1-3.1L3.3 10.8l2.4-2.3.9-3.1 3.3-.2z"></path><path d="M10.4 14.6l-2.1-2.1-1.4 1.4 3.5 3.5L17 11.3l-1.4-1.4z" fill="#fff"></path></svg></p><p class="rv-card__meta">Ohio · Verified Buyer</p></div></div>
+              <div class="rv-card__top"><img class="rv-card__av" src="images/depo8.webp" width="160" height="160" alt="" loading="lazy" decoding="async"><div><p class="rv-card__name">Marlene <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.6l2.6 2 3.3.2.9 3.1 2.4 2.3-1.1 3.1 1.1 3.1-2.4 2.3-.9 3.1-3.3.2-2.6 2-2.6-2-3.3-.2-.9-3.1L3.3 17l1.1-3.1L3.3 10.8l2.4-2.3.9-3.1 3.3-.2z"></path><path d="M10.4 14.6l-2.1-2.1-1.4 1.4 3.5 3.5L17 11.3l-1.4-1.4z" fill="#fff"></path></svg></p><p class="rv-card__meta">Missouri · Verified Buyer</p></div></div>
               <div class="rv-card__stars" aria-hidden="true">★★★★★</div>
-              <p class="rv-card__text">The afternoon brain fog is gone. I get through my whole day clear-headed.</p>
+              <p class="rv-card__text">The blank-mind moments mid-sentence are gone. I feel steady and clear again.</p>
             </article>
             <article class="rv-card">
-              <div class="rv-card__top"><img class="rv-card__av" src="images/depo3.webp" width="160" height="160" alt="" loading="lazy" decoding="async"><div><p class="rv-card__name">Sharon K. <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.6l2.6 2 3.3.2.9 3.1 2.4 2.3-1.1 3.1 1.1 3.1-2.4 2.3-.9 3.1-3.3.2-2.6 2-2.6-2-3.3-.2-.9-3.1L3.3 17l1.1-3.1L3.3 10.8l2.4-2.3.9-3.1 3.3-.2z"></path><path d="M10.4 14.6l-2.1-2.1-1.4 1.4 3.5 3.5L17 11.3l-1.4-1.4z" fill="#fff"></path></svg></p><p class="rv-card__meta">Texas · Verified Buyer</p></div></div>
+              <div class="rv-card__top"><img class="rv-card__av" src="images/depo10.webp" width="160" height="160" alt="" loading="lazy" decoding="async"><div><p class="rv-card__name">Brenda <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.6l2.6 2 3.3.2.9 3.1 2.4 2.3-1.1 3.1 1.1 3.1-2.4 2.3-.9 3.1-3.3.2-2.6 2-2.6-2-3.3-.2-.9-3.1L3.3 17l1.1-3.1L3.3 10.8l2.4-2.3.9-3.1 3.3-.2z"></path><path d="M10.4 14.6l-2.1-2.1-1.4 1.4 3.5 3.5L17 11.3l-1.4-1.4z" fill="#fff"></path></svg></p><p class="rv-card__meta">Kentucky · Verified Buyer</p></div></div>
               <div class="rv-card__stars" aria-hidden="true">★★★★★</div>
-              <p class="rv-card__text">I&rsquo;m not hunting for words in the middle of a sentence anymore. Such a relief.</p>
+              <p class="rv-card__text">My recall is night and day. I walk into a room and actually know why now.</p>
             </article>
             <article class="rv-card">
               <div class="rv-card__top"><img class="rv-card__av" src="images/depo7.webp" width="160" height="160" alt="" loading="lazy" decoding="async"><div><p class="rv-card__name">Carol Jean <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.6l2.6 2 3.3.2.9 3.1 2.4 2.3-1.1 3.1 1.1 3.1-2.4 2.3-.9 3.1-3.3.2-2.6 2-2.6-2-3.3-.2-.9-3.1L3.3 17l1.1-3.1L3.3 10.8l2.4-2.3.9-3.1 3.3-.2z"></path><path d="M10.4 14.6l-2.1-2.1-1.4 1.4 3.5 3.5L17 11.3l-1.4-1.4z" fill="#fff"></path></svg></p><p class="rv-card__meta">Indiana · Verified Buyer</p></div></div>
               <div class="rv-card__stars" aria-hidden="true">★★★★★</div>
               <p class="rv-card__text">Just two simple ingredients. I only wish I&rsquo;d found this for my mom years ago.</p>
-            </article>
-            <article class="rv-card">
-              <div class="rv-card__top"><img class="rv-card__av" src="images/depo11.webp" width="160" height="160" alt="" loading="lazy" decoding="async"><div><p class="rv-card__name">Tom B. <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.6l2.6 2 3.3.2.9 3.1 2.4 2.3-1.1 3.1 1.1 3.1-2.4 2.3-.9 3.1-3.3.2-2.6 2-2.6-2-3.3-.2-.9-3.1L3.3 17l1.1-3.1L3.3 10.8l2.4-2.3.9-3.1 3.3-.2z"></path><path d="M10.4 14.6l-2.1-2.1-1.4 1.4 3.5 3.5L17 11.3l-1.4-1.4z" fill="#fff"></path></svg></p><p class="rv-card__meta">Texas · Verified Buyer</p></div></div>
-              <div class="rv-card__stars" aria-hidden="true">★★★★★</div>
-              <p class="rv-card__text">Came in skeptical. Three weeks later my wife noticed the difference before I did.</p>
             </article>
             <article class="rv-card">
               <div class="rv-card__top"><img class="rv-card__av" src="images/depo9.webp" width="160" height="160" alt="" loading="lazy" decoding="async"><div><p class="rv-card__name">Patty G. <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.6l2.6 2 3.3.2.9 3.1 2.4 2.3-1.1 3.1 1.1 3.1-2.4 2.3-.9 3.1-3.3.2-2.6 2-2.6-2-3.3-.2-.9-3.1L3.3 17l1.1-3.1L3.3 10.8l2.4-2.3.9-3.1 3.3-.2z"></path><path d="M10.4 14.6l-2.1-2.1-1.4 1.4 3.5 3.5L17 11.3l-1.4-1.4z" fill="#fff"></path></svg></p><p class="rv-card__meta">Arizona · Verified Buyer</p></div></div>
@@ -1227,6 +1273,15 @@
 
       </div>
     </section>
+    <!-- Sticky 6-bottle buy bar (slides up when the offer unlocks) -->
+    <a class="buybar" id="buyBar" target="_self" href="https://getneuromindpro.online/bg/Front?aff_id=2574">
+      <span class="buybar__info">
+        <span class="buybar__label">Best Value · 6 Bottles</span>
+        <span class="buybar__price"><b>$49</b>/bottle · Free shipping</span>
+      </span>
+      <span class="buybar__cta">Add to cart</span>
+    </a>
+
     <!-- Live "just reserved" lvt notifications -->
     <div class="lvt-wrap" id="lvtWrap" aria-hidden="true"></div>
 
@@ -1255,6 +1310,8 @@
 
         // Fixed identities — one photo maps to exactly one name, reused consistently
         // across the static comments, the live feed, and the purchase notifications.
+        // Watchers — people currently watching the live (chat / comments / live purchases).
+        // Kept separate from the DTC review buyers so the same person never does both.
         var PEOPLE = [
           { n: 'Linda Marsh', s: 'Ohio',      a: 'images/depo1.webp' },
           { n: 'Debbie',      s: 'Florida',   a: 'images/depo2.webp' },
@@ -1262,10 +1319,6 @@
           { n: 'Donna',       s: 'Georgia',   a: 'images/depo4.webp' },
           { n: 'Sue Ann',     s: 'Tennessee', a: 'images/depo5.webp' },
           { n: 'Janice W.',   s: 'Michigan',  a: 'images/depo6.webp' },
-          { n: 'Carol Jean',  s: 'Indiana',   a: 'images/depo7.webp' },
-          { n: 'Marlene',     s: 'Missouri',  a: 'images/depo8.webp' },
-          { n: 'Patty G.',    s: 'Arizona',   a: 'images/depo9.webp' },
-          { n: 'Brenda',      s: 'Kentucky',  a: 'images/depo10.webp' },
           { n: 'Tom B.',      s: 'Texas',     a: 'images/depo11.webp' }
         ];
         // name -> avatar lookup, so a given name always shows the same face
@@ -1346,6 +1399,12 @@
           deadline = ensureDeadline();   // 15-min reservation from first offer view (persisted, continuous)
           renderTimer();
           loopToast();                   // buy notifications begin together with the offer
+          // Auto-scroll to the offer the moment the pitch unlocks
+          var top = document.querySelector('.cbs-deals') || offerEl;
+          if (top) { try { top.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) { top.scrollIntoView(); } }
+          // Reveal the sticky 6-bottle buy bar
+          var bb = $('#buyBar');
+          if (bb) { bb.classList.add('is-on'); document.body.classList.add('has-buybar'); }
         }
         window.CBSLive = window.CBSLive || {};
         window.CBSLive.onOfferReveal = function () {};  // real trigger is the visibility watcher below
@@ -1468,37 +1527,25 @@
           { n: "Janice W.", t: "my husband keeps a notebook now just to remember our grandkids names 😔" },
           { n: "Linda Marsh", t: "my mom doesnt know who i am half the time anymore. praying this is real" },
           { n: "Tom B.", t: "is this safe with blood pressure meds?? im 62 and on a couple" },
-          { n: "Carol Jean", t: "been down this road with my mom. hope this one is actually different" },
           { n: "Sharon K.", t: "ok what are the 2 ingredients, im hanging on every word" },
-          { n: "Marlene", t: "my mind just goes blank in the middle of a sentence now. didnt used to" },
-          { n: "Patty G.", t: "watching this for my mother in law, she forgets my kids names now" },
           { n: "Debbie", t: "sounds way too good honestly. still here though i guess" },
           { n: "Donna", t: "my mom asks me the same question every 10 minutes now. it wrecks me" },
           { n: "Sue Ann", t: "is he gonna actually explain it or do i gotta sit through the whole thing" },
           { n: "Janice W.", t: "getting lost on a road you drove 40 yrs... thats literally my husband 😔" },
           { n: "Linda Marsh", t: "does this help early on or is it too late once it really starts" },
-          { n: "Brenda", t: "anyone else just here cause their parent wont watch it themselves lol" },
           { n: "Tom B.", t: "came in real skeptical not gonna lie. but he explained the why better than expected" },
           { n: "Sharon K.", t: "im taking notes lol my memory aint what it was" },
-          { n: "Carol Jean", t: "ok go back, what did he say actually causes it, i zoned out" },
-          { n: "Marlene", t: "i hide it from my kids but i forget things all day now. scary to admit" },
-          { n: "Patty G.", t: "how long before you notice anything, anybody know" },
           { n: "Donna", t: "the not knowing where your parent is at night part 💔 thats my whole life" },
           { n: "Debbie", t: "every video says big pharma this big pharma that. eh" },
           { n: "Linda Marsh", t: "the forgetting conversations thing. thats exactly whats happening with her" },
           { n: "Sue Ann", t: "so what is the ritual exactly, did he already say" },
-          { n: "Brenda", t: "is this ok to do alongside what her doctor already has her on" },
           { n: "Janice W.", t: "he writes it all down and still loses it. you feel so helpless watching" },
           { n: "Sharon K.", t: "wait HONEY and what was the second one, somebody catch it" },
           { n: "Tom B.", t: "not one to comment usually but this got me sitting up" },
-          { n: "Carol Jean", t: "honestly explained more than my moms neurologist did in 3 visits" },
-          { n: "Marlene", t: "wish id found something like this before mine got bad" },
-          { n: "Patty G.", t: "first im hearing of any of this tbh" },
           { n: "Donna", t: "i cant watch another parent disappear. just cant" },
           { n: "Debbie", t: "still not fully sold but ok he made a couple points i didnt expect" },
           { n: "Linda Marsh", t: "praying this is real for once. weve tried everything else" },
           { n: "Sue Ann", t: "gotta pick up the kids soon, hope i dont miss the important part" },
-          { n: "Brenda", t: "my grandma went through this. wouldnt wish it on anyone" },
           { n: "Tom B.", t: "gonna finish the whole thing, havent done that with one of these in a while" }
         ];
         var nextChatMsg = shuffler(CHAT);
