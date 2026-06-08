@@ -1409,7 +1409,7 @@
           row.innerHTML = '<img class="vsl-chat__av" src="' + (NAME2AV[m.n] || PEOPLE[0].a) + '" alt="" loading="lazy">' +
             '<div class="vsl-chat__txt"><span class="vsl-chat__name">' + m.n + '</span>' + m.t + '</div>';
           chatEl.appendChild(row);
-          while (chatEl.childElementCount > 3) chatEl.removeChild(chatEl.firstChild);
+          while (chatEl.childElementCount > 1) chatEl.removeChild(chatEl.firstChild);
           if (Math.random() < 0.25) emitReaction();
         }
         (function loopChat() { setTimeout(function () { addChat(); loopChat(); }, rand(4500, 8000)); })();
