@@ -731,10 +731,6 @@
       100% { transform: translateY(-205px) translateX(var(--dx, -10px)) scale(1.06); opacity: 0; }
     }
 
-    /* ===== Face pile in the live strip ===== */
-    .livebar__faces { display: inline-flex; }
-    .livebar__faces img { width: 20px; height: 20px; border-radius: 9999px; object-fit: cover; border: 2px solid #fff; margin-left: -7px; }
-    .livebar__faces img:first-child { margin-left: 0; }
 
     /* ===== "Someone is typing…" indicator ===== */
     .cm-typing { display: flex; gap: 12px; align-items: center; }
@@ -873,11 +869,6 @@
       <div class="livebar" aria-hidden="true">
         <span class="live-dot"></span>
         <span class="livebar__label">LIVE</span>
-        <span class="livebar__faces" id="liveFaces">
-          <img src="images/depo4.webp" width="40" height="40" alt="" loading="lazy">
-          <img src="images/depo1.webp" width="40" height="40" alt="" loading="lazy">
-          <img src="images/depo2.webp" width="40" height="40" alt="" loading="lazy">
-        </span>
         <span class="livebar__count"><span id="liveViewers">1,247</span> watching now</span>
       </div>
       <div style="display: flex; justify-content: center ;">
@@ -1566,11 +1557,6 @@
           setTimeout(function () { t.remove(); cb(person); }, rand(1600, 2600));
         }
 
-        var faces = $('#liveFaces');
-        if (faces) setInterval(function () {
-          var imgs = faces.querySelectorAll('img');
-          if (imgs.length) imgs[rand(0, imgs.length - 1)].src = pick(PEOPLE).a;
-        }, 5000);
 
         var origTitle = document.title, flip = null;
         document.addEventListener('visibilitychange', function () {
