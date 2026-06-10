@@ -44,6 +44,16 @@
 
 
 
+  <!-- No-JS fallback: reveal the offer (normally unlocked by the player) and
+       hide the live-only widgets that depend on JS to make sense -->
+  <noscript>
+    <style>
+      .esconder { display: block !important; }
+      .livebar, .vsl-chat, .vsl-badge, .reactions, .lvt-wrap, .buybar,
+      .scarcity, .cm-live-tag, .cm-composer { display: none !important; }
+    </style>
+  </noscript>
+
   <!-- Critical CSS inlined (was css/app.min.css) — removes the render-blocking request -->
   <style>@charset "UTF-8";body{font-family:Jost}.display-2{font-family:Jost,sans-serif;font-size:2.7rem;line-height:1.1}@media (max-width:768px){.display-2{font-size:2.16rem;font-size:calc( 1.595rem + (2.7 - 1.595) * ((100vw - 20rem) / (48 - 20)));line-height:calc( 1.3 * (1.595rem + (2.7 - 1.595) * ((100vw - 20rem) / (48 - 20))))}}.text-white{color:#fafafa!important}.text-black{color:#232323!important}a.text-white.active,a.text-white:focus,a.text-white:hover{color:#c7c7c7!important}a.text-black.active,a.text-black:focus,a.text-black:hover{color:#000!important}a[class*=text-]:not(.nav-link):not(.dropdown-item):not([role]):not(.navbar-caption){position:relative;background-image:transparent;background-size:10000px 2px;background-repeat:no-repeat;background-position:0 1.2em;background-position:-10000px 1.2em}a[class*=text-]:not(.nav-link):not(.dropdown-item):not([role]):not(.navbar-caption):hover{transition:background-position 2s ease-in-out;background-image:linear-gradient(currentColor 50%,currentColor 50%);background-position:0 1.2em}a,a:hover{color:#348d5a}body{overflow-x:hidden}a{transition:color .6s}:root{--new-primary:#B3001B;--new-primary-dark:#931F1D;--new-blue-light:#3977a4;--new-blue-dark:#2A324B;--new-light:#E1E5EE;--bs-light-rgb:225,229,238;--bs-font-sans-serif:'Poppins',sans-serif}.theme-border-radius{border-radius:3.125rem}.border-primary-new{border:2px solid var(--new-primary)}.btn-new{font-size:1rem;line-height:1.5;box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 1px 1px rgba(0,0,0,.075);font-weight:400;color:#fff;text-align:center;text-decoration:none;text-transform:uppercase;padding:1rem 5rem;vertical-align:middle;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;user-select:none;border-radius:10rem;transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out}.btn-primary-new{cursor:pointer;background-color:#ffd814;border:none;color:#000;border:1px solid #fcd200;font-weight:600}.btn-primary-new:hover{background-color:#f7ca00;text-decoration:none;color:#000}.countdown{display:none;color:#000;margin-left:auto;margin-right:auto;text-align:center;font-size:30px}.countdown>div{border-radius:20px;display:inline-block;vertical-align:middle;margin-right:1rem}.countdown .text{font-size:.875rem;margin-top:.25rem}.countdown div>span{padding:1rem;border-radius:1.5rem;background:var(--new-blue-dark);display:inline-block;width:80px;color:#fff}.loading{width:100%;min-height:100%;top:0;left:0;z-index:999;padding-bottom:calc(56.25%);text-align:center;color:#fff;background:var(--new-blue-light);position:absolute;display:flex;justify-content:center;border-radius:30px;letter-spacing:.5px}@keyframes rotate{0%{transform:rotate(0)}to{transform:rotate(1turn)}}@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}/*!
  * Bootstrap  v5.2.3 (https://getbootstrap.com/)
@@ -247,11 +257,15 @@
     }
 
     .cbs-eyebrow__date {
-      color: #777;
+      color: #6e6e6e;
       font-size: 12.5px;
       font-weight: 500;
       white-space: nowrap;
     }
+
+    /* AA contrast for the scientific-references gray (was #7A7A7A = 4.0:1) —
+       also kinder to the senior audience reading the citations */
+    .text-\[\#7A7A7A\] { color: #595959; }
 
     /* ===== Brand applied to CTAs / accents that come from external CSS ===== */
     .btn-primary-new,
@@ -1802,7 +1816,10 @@
           if (rows.length > 14) list.removeChild(rows[rows.length - 1]);
         }
         (function loopComment() { setTimeout(function () { var p = nextFeedPerson(); showTyping(p, addComment); loopComment(); }, rand(30000, 60000)); })();
-        setInterval(function () { times.forEach(function (t) { if (t.el && t.el.isConnected) t.el.textContent = relTime(t.ts); }); }, 5000);
+        setInterval(function () {
+          times = times.filter(function (t) { return t.el && t.el.isConnected; }); // drop rows pruned from the feed
+          times.forEach(function (t) { t.el.textContent = relTime(t.ts); });
+        }, 5000);
 
         /* ---- 5) delegated comment interactions ---- */
         document.addEventListener('click', function (e) {

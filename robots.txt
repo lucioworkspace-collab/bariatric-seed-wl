@@ -1,0 +1,3 @@
+# Campaign landing page — intentionally not indexed (matches the meta noindex).
+User-agent: *
+Disallow: /
