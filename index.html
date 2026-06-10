@@ -117,7 +117,8 @@
     .dflex { display: flex; }
 
     /* Perf: skip layout/paint of offscreen sections until needed */
-    .cv-auto { content-visibility: auto; contain-intrinsic-size: 1px 1200px; }
+    /* (content-visibility removed: it blanked sections on some Android/in-app
+       webviews — visual correctness beats the ~100ms layout deferral) */
 
     /* ===== Top chrome: header / program / nav / ticker ===== */
     .cbs-header {
@@ -1393,7 +1394,7 @@
         <p class="text-[13px] text-[#555] text-center mb-0"><strong>Original Neuro Mind Pro</strong> is offered only on this page — not on Amazon, not in pharmacies or health-food stores. Delivery in the U.S. typically <strong>3–5 business days</strong>. If checkout shows <strong>$294</strong> for the 6-bottle kit, promotional inventory may still be available; if it shows <strong>$1070</strong>, the promo allocation may be gone.</p>
       </div>
 
-      <div class="cv-auto">
+      <div>
         <h2 class="text-[#646464] text-center text-xl font-[700] my-[20px] lg:text-2xl md:text-xl md:my-[30px]">Scientific References
         </h2>
         <img loading="lazy" decoding="async" width="1100" height="79" src="images/refs-logos.webp" class="mx-auto mb-[35px]" alt="Scientific reference sources">
@@ -1425,7 +1426,7 @@
         </div>
       </div>
     </section>
-    <section class="cv-auto container mx-auto my-10 p-4 font-sans max-w-3xl">
+    <section class="container mx-auto my-10 p-4 font-sans max-w-3xl">
 
       <div class="cm-head">
         <h3><span id="cmCount">4,128</span> Comments</h3>
