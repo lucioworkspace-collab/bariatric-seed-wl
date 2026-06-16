@@ -125,22 +125,22 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      background: var(--brand);
+      background: #fff;
       display: grid;
-      grid-template-columns: 40px 1fr 40px;
+      grid-template-columns: 1fr auto;
       align-items: center;
       padding: 12px 16px;
-      color: #fff;
-      box-shadow: 0 1px 8px rgba(0, 0, 0, .15);
-      border-bottom: 1px solid rgba(255, 255, 255, .18);
+      color: var(--ink);
+      box-shadow: 0 1px 6px rgba(20, 22, 31, .08);
+      border-bottom: 1px solid var(--line);
     }
 
     /* Program block */
     .cbs-program {
-      background: var(--brand);
-      color: #fff;
+      background: #fff;
+      color: var(--ink);
       padding: 14px 16px 16px;
-      text-shadow: 0 1px 1.5px rgba(70, 40, 0, .32);
+      border-bottom: 1px solid var(--line);
     }
 
     .cbs-program-title {
@@ -148,6 +148,7 @@
       font-size: 22px;
       font-weight: 800;
       line-height: 1.1;
+      color: var(--brand);
       font-family: 'Open Sans', Arial, sans-serif;
     }
 
@@ -170,7 +171,7 @@
     .cbs-header .cbs-icon {
       background: none;
       border: 0;
-      color: #fff;
+      color: var(--ink);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -180,7 +181,7 @@
     .cbs-header .cbs-icon--right { justify-self: end; }
 
     .cbs-logo {
-      justify-self: center;
+      justify-self: start;
       display: flex;
       align-items: center;
       text-decoration: none;
@@ -195,7 +196,7 @@
     }
 
     .cbs-nav {
-      background: var(--brand);
+      background: #fff;
       display: flex;
       gap: 24px;
       padding: 12px 16px;
@@ -203,20 +204,19 @@
       white-space: nowrap;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
-      border-top: 1px solid rgba(255, 255, 255, .16);
+      border-top: 1px solid var(--line);
     }
 
     .cbs-nav::-webkit-scrollbar { display: none; }
 
     .cbs-nav a {
-      color: #fff;
+      color: var(--brand);
       text-decoration: none;
       font-size: 16px;
       font-weight: 600;
       font-family: 'Open Sans', Arial, sans-serif;
       flex: 0 0 auto;
       opacity: 1;
-      text-shadow: 0 1px 1.5px rgba(70, 40, 0, .32);
     }
 
     .cbs-nav a:hover { opacity: 1; }
@@ -967,31 +967,17 @@
   <main id="container">
     <!-- Header -->
     <header class="cbs-header">
-      <!-- Menu (grid) -->
-      <button type="button" class="cbs-icon" aria-label="Menu">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <rect x="2" y="2" width="5" height="5" rx="1"></rect>
-          <rect x="9.5" y="2" width="5" height="5" rx="1"></rect>
-          <rect x="17" y="2" width="5" height="5" rx="1"></rect>
-          <rect x="2" y="9.5" width="5" height="5" rx="1"></rect>
-          <rect x="9.5" y="9.5" width="5" height="5" rx="1"></rect>
-          <rect x="17" y="9.5" width="5" height="5" rx="1"></rect>
-          <rect x="2" y="17" width="5" height="5" rx="1"></rect>
-          <rect x="9.5" y="17" width="5" height="5" rx="1"></rect>
-          <rect x="17" y="17" width="5" height="5" rx="1"></rect>
-        </svg>
-      </button>
-
       <!-- Logo: ARD Mediathek -->
       <a href="#" class="cbs-logo" aria-label="ARD Mediathek">
         <img src="images/ard-logo.webp" width="54" height="34" fetchpriority="high" decoding="async" alt="ARD Mediathek">
       </a>
 
-      <!-- Search -->
-      <button type="button" class="cbs-icon cbs-icon--right" aria-label="Search">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
-          <circle cx="11" cy="11" r="7"></circle>
-          <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
+      <!-- Menü -->
+      <button type="button" class="cbs-icon cbs-icon--right" aria-label="Menü">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
         </svg>
       </button>
     </header>
