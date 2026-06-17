@@ -309,8 +309,58 @@
       font-weight: 800;
       letter-spacing: .12em;
       text-transform: uppercase;
-      box-shadow: 0 3px 9px rgba(205, 137, 0, .32);
+      box-shadow: 0 4px 12px rgba(0, 24, 80, .22);
     }
+
+    /* ===== Nav: emphasize LIVE (credibility cue) ===== */
+    .cbs-nav__live { color: var(--urgent) !important; font-weight: 800; display: inline-flex; align-items: center; gap: 7px; }
+    .cbs-nav__live .live-dot { width: 7px; height: 7px; }
+
+    /* ===== DTC — clean / premium redesign (skeptical DACH audience) ===== */
+    .row.dflex .theme-border-radius {
+      border-radius: 18px !important;
+      border: 1px solid var(--line) !important;
+      box-shadow: 0 1px 2px rgba(20, 22, 31, .05), 0 12px 28px rgba(20, 22, 31, .06) !important;
+      padding: 30px 24px !important;
+      background: #fff;
+    }
+    @media (hover: hover) {
+      .row.dflex .theme-border-radius:hover { box-shadow: 0 1px 2px rgba(20, 22, 31, .05), 0 18px 40px rgba(20, 22, 31, .10) !important; transform: translateY(-2px); }
+    }
+    /* Hero (recommended) kit: navy accent + gentle lift, no red */
+    .row.dflex .border-primary-new {
+      border: 1.5px solid var(--brand) !important;
+      box-shadow: 0 2px 4px rgba(0, 24, 80, .06), 0 18px 46px rgba(0, 24, 80, .16) !important;
+      position: relative;
+    }
+    @media (min-width: 768px) { #kit6 .border-primary-new { transform: translateY(-10px); } }
+    #kit6 .kit-eyebrow { background: var(--brand); box-shadow: 0 4px 12px rgba(0, 24, 80, .22); letter-spacing: .14em; padding: 4px 14px; margin-bottom: 10px; }
+    /* Typography: calmer, more confident */
+    .row.dflex h3.fw-bold { font-family: 'Open Sans', Arial, sans-serif; font-size: 20px; letter-spacing: -.01em; color: var(--ink); }
+    .row.dflex .small { color: var(--muted); }
+    .row.dflex p.fw-bold.mb-2 { color: var(--cta-dark); font-weight: 700; font-size: 14px; letter-spacing: .01em; }
+    /* The CTA: solid, calm, trustworthy — no gradient, no pulsing */
+    .cta.btn-new {
+      background-image: none !important;
+      background-color: var(--cta);
+      border: none;
+      color: #fff;
+      font-family: 'Open Sans', Arial, sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: .01em;
+      text-transform: none;
+      border-radius: 12px;
+      padding: 15px 16px;
+      width: 100%;
+      margin: 8px auto 0;
+      box-shadow: 0 6px 16px rgba(21, 128, 61, .20);
+      animation: none !important;
+      transition: background-color .15s ease, box-shadow .15s ease, transform .12s ease;
+    }
+    .cta.btn-new:hover { background-color: var(--cta-dark); box-shadow: 0 10px 22px rgba(21, 128, 61, .26); transform: translateY(-1px); }
+    .cta.btn-new:active { transform: translateY(0); }
+    .cta-note { margin-top: 10px; }
 
     /* Steady digits: live timer / counters keep a fixed width as they tick */
     #resTimer, #vslClock, #liveViewers, #liveCheckout, #cmCount,
@@ -992,7 +1042,7 @@
     <!-- Category nav -->
     <nav class="cbs-nav" aria-label="Bereiche">
       <a href="#">Startseite</a>
-      <a href="#">Live</a>
+      <a href="#" class="cbs-nav__live"><span class="live-dot"></span> Live</a>
       <a href="#">Sendungen A–Z</a>
       <a href="#">Information</a>
       <a href="#" class="is-active">Gesundheit</a>
