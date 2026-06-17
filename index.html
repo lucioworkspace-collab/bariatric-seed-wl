@@ -364,6 +364,13 @@
     .cta.btn-new:active { transform: translateY(0); }
     .cta-note { margin-top: 10px; }
 
+    /* Mobile hardening: room for the longer German strings on narrow phones */
+    .cbs-deals__row { flex-wrap: wrap; }
+    .cta-secure { flex-wrap: wrap; text-align: center; }
+    @media (max-width: 420px) {
+      .row.dflex .theme-border-radius { padding: 24px 16px !important; }
+    }
+
     /* Steady digits: live timer / counters keep a fixed width as they tick */
     #resTimer, #vslClock, #liveViewers, #liveCheckout, #cmCount,
     .counter_left, .lvt__meta, .scarcity__stock { font-variant-numeric: tabular-nums; }
