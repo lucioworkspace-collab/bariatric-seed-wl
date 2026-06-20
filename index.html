@@ -966,9 +966,9 @@
     .reactions {
       position: absolute;
       right: 6px;
-      bottom: 6px;
-      width: 64px;
-      height: 230px;
+      bottom: 8px;
+      width: 96px;
+      height: 250px;
       pointer-events: none;
       z-index: 3;
       overflow: visible;
@@ -979,73 +979,97 @@
       bottom: 0;
       right: 0;
       line-height: 1;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .35));
       will-change: transform, opacity;
-      animation: float-up 2.8s ease-out forwards;
+      animation: float-up var(--dur, 3s) cubic-bezier(.34, .12, .2, 1) forwards;
     }
 
-    /* ===== Live chat overlay on the VSL (compact, high-contrast, non-obstructive) ===== */
-    .vsl-chat {
-      position: absolute;
-      left: 8px;
-      bottom: 8px;
-      z-index: 3;
-      width: 66%;
-      max-width: 250px;
+    /* ===== Live-Chat panel below the player (prominent, premium, non-obstructive) ===== */
+    .vsl-livechat {
+      width: 100%;
+      max-width: 440px;
+      margin: 11px auto 0;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      box-shadow: 0 8px 24px rgba(8, 11, 16, .07);
+      overflow: hidden;
+    }
+
+    .vsl-lc__head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, #fbfcfe, #f4f7fb);
+    }
+
+    .vsl-lc__head .live-dot { background: var(--urgent); }
+    .vsl-lc__title { font-family: 'Open Sans', Arial, sans-serif; font-weight: 800; font-size: 13px; letter-spacing: .02em; color: var(--ink); }
+    .vsl-lc__count { margin-left: auto; font-size: 11.5px; font-weight: 700; color: var(--muted); }
+    .vsl-lc__count::before { content: "● "; color: var(--cta); font-size: 9px; vertical-align: middle; }
+
+    .vsl-lc__list {
+      height: 186px;
+      padding: 11px 13px;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      gap: 6px;
-      max-height: 58%;
+      gap: 10px;
       overflow: hidden;
-      pointer-events: none;
-      -webkit-mask-image: linear-gradient(to top, #000 58%, transparent);
-      mask-image: linear-gradient(to top, #000 58%, transparent);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 16%, #000 100%);
+      mask-image: linear-gradient(to bottom, transparent 0, #000 16%, #000 100%);
     }
 
-    .vsl-chat__msg {
+    .vsl-cmt {
       display: flex;
       align-items: flex-start;
-      gap: 7px;
-      animation: chat-in .35s ease;
+      gap: 9px;
+      animation: chat-in .42s cubic-bezier(.2, .8, .2, 1);
     }
 
-    .vsl-chat__av {
-      width: 20px;
-      height: 20px;
+    .vsl-cmt__av {
+      width: 30px;
+      height: 30px;
       border-radius: 9999px;
       object-fit: cover;
       flex: 0 0 auto;
-      margin-top: 1px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, .5);
+      box-shadow: 0 1px 4px rgba(8, 11, 16, .18);
     }
 
-    .vsl-chat__txt {
-      font-size: 12px;
-      line-height: 1.35;
-      color: #fff;
-      background: rgba(17, 18, 22, .62);
-      -webkit-backdrop-filter: blur(2px);
-      backdrop-filter: blur(2px);
-      border-radius: 12px;
-      padding: 5px 10px;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, .6);
-    }
+    .vsl-cmt__b { min-width: 0; }
+    .vsl-cmt__meta { display: flex; align-items: baseline; gap: 6px; line-height: 1.1; margin-bottom: 1px; }
+    .vsl-cmt__name { font-weight: 800; font-size: 12.5px; color: var(--brand); }
+    .vsl-cmt__time { font-size: 10.5px; font-weight: 600; color: #9aa3b0; }
+    .vsl-cmt__txt { font-size: 13px; line-height: 1.4; color: var(--ink); word-wrap: break-word; }
 
-    .vsl-chat__name { font-weight: 800; color: #ffd87a; margin-right: 5px; }
+    /* "schreibt …" typing bubble inside the panel */
+    .vsl-cmt--typing .vsl-cmt__bubble {
+      display: inline-flex; gap: 4px; align-items: center;
+      background: #eef2f8; border-radius: 11px; padding: 7px 10px; margin-top: 2px;
+    }
+    .vsl-cmt--typing .vsl-cmt__bubble span {
+      width: 5px; height: 5px; border-radius: 50%; background: #9aa3b0; opacity: .5;
+      animation: vsl-typ 1s infinite;
+    }
+    .vsl-cmt--typing .vsl-cmt__bubble span:nth-child(2) { animation-delay: .15s; }
+    .vsl-cmt--typing .vsl-cmt__bubble span:nth-child(3) { animation-delay: .3s; }
+    @keyframes vsl-typ { 0%, 100% { opacity: .35; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-2px); } }
 
     @keyframes chat-in {
-      from { opacity: 0; transform: translateY(8px); }
+      from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .vsl-chat__msg { animation: none; }
+      .vsl-cmt, .vsl-cmt--typing .vsl-cmt__bubble span { animation: none; }
     }
 
     @keyframes float-up {
-      0% { transform: translateY(0) scale(.6); opacity: 0; }
-      15% { opacity: 1; transform: translateY(-14px) scale(1); }
-      100% { transform: translateY(-205px) translateX(var(--dx, -10px)) scale(1.06); opacity: 0; }
+      0% { transform: translateY(0) scale(.5) rotate(0deg); opacity: 0; }
+      14% { opacity: 1; transform: translateY(-18px) scale(1.05) rotate(-4deg); }
+      100% { transform: translateY(-228px) translateX(var(--dx, -10px)) scale(1.12) rotate(6deg); opacity: 0; }
     }
 
 
@@ -1202,9 +1226,18 @@
         <div class="vsl-stage">
           <div class="vsl-badge"><span class="live-dot"></span> LIVE <span id="vslClock">0:00</span></div>
           <vturb-smartplayer id="vid-6a370ffe033aab84a759584b" style="display: block; margin: 0 auto; width: 100%;"></vturb-smartplayer>
-          <div class="vsl-chat" id="vslChat" aria-hidden="true"></div>
           <div class="reactions" id="reactions" aria-hidden="true"></div>
         </div>
+
+        <!-- Live chat panel (below the player → prominent, never obstructs the VSL) -->
+        <aside class="vsl-livechat" aria-label="Live-Chat">
+          <div class="vsl-lc__head">
+            <span class="live-dot"></span>
+            <span class="vsl-lc__title">Live-Chat</span>
+            <span class="vsl-lc__count"><span id="vslChatCount">1.247</span> dabei</span>
+          </div>
+          <div class="vsl-lc__list" id="vslChat" aria-live="polite"></div>
+        </aside>
         <script type="text/javascript"> var s = document.createElement("script"); s.src = "https://scripts.converteai.net/13e4d193-3f66-46ab-8eb0-6e6da4bd133b/players/6a370ffe033aab84a759584b/v4/player.js", s.async = !0, document.head.appendChild(s); </script>
 
         <!-- Vídeo vturb -->
@@ -1822,79 +1855,272 @@
         }
         setInterval(renderClock, 1000); renderClock();
 
-        var rlayer = $('#reactions'), EMOJIS = ['❤️', '🧡', '💛', '❤️', '😍', '🙏', '👏'];
+        // Floating live-reactions — varied emoji, size, drift, speed → feels like a
+        // real audience tapping ❤️ in real time (weighted toward hearts).
+        var rlayer = $('#reactions');
+        var EMOJIS = ['❤️', '❤️', '❤️', '🔥', '👏', '😍', '🙏', '💪', '🥹', '😮', '✨'];
         function emitReaction() {
           if (!rlayer || RM) return;
           var e = document.createElement('span');
           e.className = 'reaction';
           e.textContent = pick(EMOJIS);
-          e.style.setProperty('--dx', rand(-26, 6) + 'px');
-          e.style.right = rand(0, 34) + 'px';
-          e.style.fontSize = rand(16, 26) + 'px';
+          var dur = (rand(26, 38) / 10);
+          e.style.setProperty('--dx', rand(-36, 10) + 'px');
+          e.style.setProperty('--dur', dur + 's');
+          e.style.right = rand(0, 62) + 'px';
+          e.style.fontSize = rand(15, 30) + 'px';
           rlayer.appendChild(e);
-          setTimeout(function () { e.remove(); }, 2900);
-          if (rlayer.childElementCount > 10) rlayer.removeChild(rlayer.firstChild);
+          setTimeout(function () { e.remove(); }, dur * 1000 + 120);
+          if (rlayer.childElementCount > 14) rlayer.removeChild(rlayer.firstChild);
         }
-        function burst(n) { for (var i = 0; i < n; i++) setTimeout(emitReaction, i * 220); }
-        if (!RM) setInterval(function () { if (Math.random() < 0.5) emitReaction(); }, 2600);
+        // A little cluster of taps at once — like several people reacting together.
+        function burst(n) { for (var i = 0; i < n; i++) setTimeout(emitReaction, i * (RM ? 0 : rand(120, 300))); }
+        if (!RM) {
+          setInterval(function () { if (Math.random() < 0.62) emitReaction(); }, 2100);
+          setInterval(function () { if (Math.random() < 0.3) burst(rand(2, 5)); }, 6500);
+        }
 
-        /* ---- 7) live chat overlay on the VSL (40 named messages from the 11 people) ---- */
+        /* ---- 7) live-chat panel below the VSL — DACH L1 script, in narrative order,
+                 played as a live timeline so the room reacts beat-by-beat with the video.
+                 Handles keep a stable face via a deterministic avatar hash. ---- */
         var chatEl = $('#vslChat');
-        var CHAT = [
-          // — Einstieg / Hook: neugierig, noch skeptisch, bleiben aber dran —
-          { n: "Claudia", t: "ok noch so ne abnehm-sache. kenn ich alles schon aber gut, ich hör mal zu" },
-          { n: "Sabine", t: "warte hat er grad gesagt man muss KEINE kohlenhydrate weglassen?? jetzt hör ich zu" },
-          { n: "Petra", t: "moment also kein hungern und kein sport? wie soll das gehen 🤔" },
-          { n: "Andrea", t: "bin extra geblieben weil ne freundin meinte ich soll mir das bis zum ende anschauen" },
-          // — Meghan Trainor / Promi-Hook —
-          { n: "Monika", t: "war das gerade meghan trainor?? hab ich das richtig gesehen" },
-          { n: "Claudia", t: "wenn das stimmt was die promis hier nehmen warum hört man da nirgends was davon" },
-          { n: "Sabine", t: "kommt mir bekannt vor diese frau aus dem video, woher kenn ich die" },
-          // — Neugier auf den Mechanismus / die 2 Zutaten —
-          { n: "Andrea", t: "ok was sind jetzt diese 2 zutaten, ich häng an jedem wort" },
-          { n: "Petra", t: "warte was war die erste zutat, hat das jemand mitbekommen" },
-          { n: "Monika", t: "also der trick ist im DARM?? das hab ich so noch nie gehört" },
-          { n: "Claudia", t: "schreibt er irgendwo die genauen mengen hin oder muss ich mitschreiben" },
-          { n: "Sabine", t: "halt stop nochmal langsam welches gewürz war das 😅" },
-          { n: "Andrea", t: "mach mir tatsächlich notizen lol das ergibt mehr sinn als alles vorher" },
-          // — Dr. Adler / Glaubwürdigkeit —
-          { n: "Monika", t: "wie hieß nochmal die ärztin die er erwähnt hat, hab ich verpasst" },
-          { n: "Petra", t: "ne richtige ärztin aus der ard? ok das beruhigt mich ein bisschen" },
-          { n: "Claudia", t: "bin skeptisch reingegangen ehrlich. aber sie erklärt das WARUM besser als gedacht" },
-          // — Identifikation / Schmerzpunkte (kein Heilversprechen) —
-          { n: "Andrea", t: "55 und das bauchfett geht einfach nicht weg egal was ich versuche 😩" },
-          { n: "Petra", t: "der heißhunger gegen 15 uhr macht mich jeden einzelnen tag fertig" },
-          { n: "Sabine", t: "das blähgefühl am ende des tages, genau DAS ist mein ganzes leben 💔" },
-          { n: "Monika", t: "mein stoffwechsel ist seit den wechseljahren einfach nicht mehr derselbe" },
-          { n: "Claudia", t: "hab dieselben 15 kilo seit jahren verloren und wieder drauf. jo-jo lässt grüßen 🙄" },
-          { n: "Petra", t: "ich zähl jede kalorie und nehm trotzdem nicht ab. man fühlt sich so besiegt" },
-          { n: "Andrea", t: "versteck mich mittlerweile auf jedem familienfoto hinten 😔 hab genug davon" },
-          // — Spannung halten / dranbleiben —
-          { n: "Sabine", t: "ich bete dass das mal was echtes ist. hab schon ALLES andere probiert" },
-          { n: "Monika", t: "muss gleich die kinder abholen, bitte sag mir keiner ich verpass den wichtigen teil" },
-          { n: "Claudia", t: "noch nicht ganz überzeugt aber sie hat punkte gemacht die ich nicht erwartet hab" },
-          { n: "Petra", t: "funktioniert das auch wenn ich nur so 8 kilo runter will oder eher bei mehr" },
-          { n: "Andrea", t: "kommentier sonst NIE bei sowas aber das hat mich echt aufhorchen lassen" },
-          { n: "Sabine", t: "bleibt dran mädels, ich will wissen wie das mit dem darm jetzt genau funktioniert" },
-          { n: "Monika", t: "ok ich schau mir das ganze ding an, hab ich bei sowas lang nicht mehr gemacht" }
+        var AV_POOL = [
+          'images/depo1.webp', 'images/depo2.webp', 'images/depo3.webp', 'images/depo4.webp', 'images/depo5.webp',
+          'images/depo6.webp', 'images/depo7.webp', 'images/depo8.webp', 'images/depo9.webp', 'images/depo10.webp',
+          'images/live1.webp', 'images/live2.webp', 'images/live3.webp'
         ];
-        var nextChatMsg = shuffler(CHAT);
+        var _avCache = {};
+        function avatarFor(handle) {
+          if (_avCache[handle]) return _avCache[handle];
+          var h = 0; for (var i = 0; i < handle.length; i++) { h = (h * 31 + handle.charCodeAt(i)) >>> 0; }
+          return (_avCache[handle] = AV_POOL[h % AV_POOL.length]);
+        }
+        var CHAT = [
+          // BLOCO 1 — Hook „Zum Teufel mit Munjaro"
+          { n: "Sabine_M.", t: '"zum teufel mit munjaro" 👏 endlich sagt es jemand' },
+          { n: "Heike72", t: "3 kilo pro woche?? mit hafer? 🤨" },
+          { n: "petra.k.66", t: "1 euro?? bin schon dabei" },
+          { n: "BettinaWue", t: "papier und stift sind in der hand mädels" },
+          { n: "ingrid_b.", t: "meghan trainor wieder, interessant" },
+          { n: "monika_h", t: '"lärm des essens" — kenne ich nur zu gut' },
+          // BLOCO 2 — Mechanismus + 10 Sekunden + Größe 36
+          { n: "karinTHH", t: "größe 36 wieder?? letzte mal 1992 😅" },
+          { n: "gabi_kln", t: "10 sekunden am morgen, das klingt machbar" },
+          { n: "Andrea S.", t: "ohne pizza gegen salat zu tauschen?? wo unterschreibe ich" },
+          { n: "silke_mhh", t: "nach 40 schaltet sich was ab — endlich erklärt das mal jemand" },
+          { n: "Christine_W", t: "ohne jojo, ohne schlaffe haut, das wäre der traum" },
+          { n: "jutta59", t: "bin skeptisch aber höre weiter" },
+          // BLOCO 3 — Lehrerin aus Berlin + Pharma-Supressão
+          { n: "mama_von_3", t: "lehrerin aus berlin… könnte meine schwiegermutter sein" },
+          { n: "daniela_k_82", t: "30 kilo in 60 tagen 😳" },
+          { n: "claudia_h", t: "pharma will inhalt rausnehmen? wundert mich kein bisschen" },
+          { n: "birgit_w", t: "die wollen nur dass wir die teuren spritzen kaufen" },
+          { n: "ulrike_kln", t: "ich höre lieber jetzt bevor das tatsächlich runter genommen wird" },
+          { n: "annette_67", t: "1000 euro spritzen oder 1 euro hafer… die rechnung ist klar" },
+          { n: "karinB.", t: "aus berlin dabei ✋ kenne lehrerinnen aus dem milieu, klingt plausibel" },
+          // BLOCO 4 — Invalidação + Charité/Harvard
+          { n: "LaraMHL", t: "charité und harvard zusammen — das nimmt meine zweifel ernst" },
+          { n: "petraS59", t: "charité ist die nummer 1 in deutschland 👌" },
+          { n: "regina_b", t: "ingwer trick habe ich auch durch, gar nichts passiert" },
+          { n: "iris_dueren", t: "gelatine trick auch, gleiches ergebnis 😔" },
+          { n: "doris_k.", t: "cardio im studio… meine knie sagen nein danke" },
+          { n: "HanneloreW", t: "bin am hören, gespannt" },
+          { n: "regineHH", t: "wenn die charité da steht höre ich erst recht zu" },
+          // BLOCO 5 — Ampliação do alvo + Visão Größe 36
+          { n: "helga_r", t: "ich bin 63 und gebe nicht auf" },
+          { n: "marion_k", t: "jojo seit 20 jahren, das wäre eine erlösung" },
+          { n: "steffi_m", t: "neue kleider!! 🥹" },
+          { n: "silvia_w", t: "größe 36 war meine zeit, 1990" },
+          { n: "brigitte71", t: "ständige komplimente… ich kann mich nicht erinnern wann das war" },
+          { n: "KerstinDD", t: "hoffentlich werde ich heute nicht enttäuscht" },
+          // BLOCO 6 — Meghan via Ozempic-Face
+          { n: "ingrid_b.", t: "meghan trainor ❤️" },
+          { n: "jessica_lpz", t: "22 kilo mit munjaro… die konzerte sahen anders aus" },
+          { n: "Sabine_M.", t: "ozempic-face!!! genau das hat mich vom munjaro abgehalten" },
+          { n: "mama_zwei", t: "meine kollegin sah aus wie 70 nach 3 monaten ozempic" },
+          { n: "nicole_d", t: "die zeitschriften zeigen das schon, ist erschreckend" },
+          { n: "renate_b", t: "alles ist zurückgekommen… typisch leider" },
+          { n: "waltraud_AT", t: "kein ende der geschichte heute?? bin gespannt" },
+          // BLOCO 7 — Meghan confissão: o rosto destruído
+          { n: "CorneliaW", t: '"die mollige die sinkt" 😔 ich kenne diese stimme im kopf' },
+          { n: "DorisM", t: '"ich erkannte mich nicht" — das ist es was alle fürchten' },
+          { n: "AnjaB.", t: "10 jahre älter in 60 tagen 😳" },
+          { n: "petra59_w", t: "meine cousine hatte genau das, eingefallene wangen" },
+          { n: "gabi_67", t: "+7 kilo nach dem absetzen, das ist brutal ehrlich" },
+          { n: "BettinaWue", t: "ihr zuzuhören tut weh, aber muss sein" },
+          { n: "ute_b.", t: "die tränen sind echt, das spürt man" },
+          { n: "thea_w", t: "wenn das eine sängerin schon so erlebt, was wäre mit uns?" },
+          // BLOCO 8 — 60% das mulheres + Haferrezept
+          { n: "karinTHH", t: "60 prozent in europa?? das ist krass" },
+          { n: "petra.k.66", t: "ich kenne mindestens 4 frauen denen es genauso ging" },
+          { n: "HanneloreW", t: "haferflocken… das wäre fast zu schön" },
+          { n: "mama_von_3", t: "erstes interview seit sie aufgehört hat? bin gespannt" },
+          { n: "claudia_h", t: "die wahrheit kommt selten ans licht" },
+          { n: "silke_mhh", t: "jeder kennt jemanden, das ist eine epidemie 😞" },
+          { n: "elke_t", t: "in meinem kollegium 3 lehrerinnen mit dem gleichen problem" },
+          // BLOCO 9 — Adler apresentação + 22 Mio
+          { n: "ute_b.", t: "dr adler! kenne ich aus dem mdr glaube ich" },
+          { n: "iris_dueren", t: "ihr buch hatte mir meine freundin schon empfohlen" },
+          { n: "Andrea S.", t: '"natürliches munjaro" — der name verkauft sich von selbst' },
+          { n: "ulrike_kln", t: "22 millionen aufrufe und ich erfahre erst jetzt 🙄" },
+          { n: "gabi_kln", t: "bin am hören, hoffe nicht enttäuscht zu werden" },
+          { n: "birgit_w", t: "helene fischer als patientin… na dann" },
+          // BLOCO 10 — Harvard 1,2x + Meghan transformada
+          { n: "anna_p.", t: "1,2x stärker als munjaro?? das wäre der hammer" },
+          { n: "monika_h", t: "ohne hungern ohne fitness — ich höre genau zu" },
+          { n: "Christine_W", t: '"wangen zurück" — das ist was alle wollen' },
+          { n: "DorisM", t: "10 jahre jünger als auf munjaro 😳" },
+          { n: "mama_zwei", t: "sonntags pizza, wein mit den freundinnen ❤️" },
+          { n: "Brigitte_T", t: '"lärm des essens" — genau diesen lärm trage ich im kopf' },
+          // BLOCO 11 — Credenciais Adler
+          { n: "Sabine_M.", t: "der ultimative schlankheitscode steht bei mir im regal!" },
+          { n: "ingrid_b.", t: "helene fischer als patientin… jetzt verstehe ich die figur" },
+          { n: "petraS59", t: "barbara schöneberger auch, beeindruckend" },
+          { n: "karinTHH", t: "20 jahre dermatologin und ernährungsmedizin, das ist eine ansage" },
+          { n: "heidi_K", t: "bin überzeugter als am anfang" },
+          { n: "inge_b", t: "wenn die beim ard war ist das schon was" },
+          // BLOCO 12 — Presente exclusivo + Meghan confessional
+          { n: "mama_von_3", t: '"geschenk vorbereitet" — was wohl?' },
+          { n: "LaraMHL", t: "meghan 31 mit drei kindern, das ist hardcore alltag" },
+          { n: "CorneliaW", t: '"medien wollen das nicht dass ihr wisst" — wieder typisch' },
+          { n: "AnjaB.", t: '"weinte hinter den kulissen" 💔' },
+          { n: "ulla_p", t: "5 uhr morgens aufstehen und trotzdem zunehmen, kenne ich" },
+          { n: "silke_mhh", t: "sie redet wie eine freundin, nicht wie eine berühmtheit" },
+          // BLOCO 13 — Jornada $50K
+          { n: "marion_k", t: "15000 dollar fürs intervallfasten?? wahnsinn" },
+          { n: "KerstinDD", t: "ich hätte das für die hälfte des preises gemacht und auch versagt" },
+          { n: "iris_dueren", t: "low carb mit butter im kaffee 🙄 erinnere mich" },
+          { n: "petra59_w", t: "23000 dollar für munjaro… mein arzt wollte mir das auch andrehen" },
+          { n: "ChristineW", t: '"körper hat ein gedächtnis" — beste beschreibung die ich je gehört habe' },
+          { n: "gabi_67", t: "bei mir kam jedes kilo doppelt zurück, immer" },
+          { n: "nicole_d", t: "so viel geld für so wenig ergebnis… die wahre tragödie" },
+          // BLOCO 14 — Helene + Katzenberger
+          { n: "Andrea S.", t: "helene fischer hat aber eine perfekte figur, jetzt verstehe ich" },
+          { n: "mama_von_3", t: "katzenberger 16 kilo in 27 tagen 😳" },
+          { n: "BeaCH", t: "haferflocken… also so simpel" },
+          { n: "jutta59", t: '"drei sekunden rezept" bin gespannt' },
+          { n: "monika_h", t: "wer wartet noch auf das rezept ✋" },
+          { n: "annette_67", t: "ich auch ✋" },
+          { n: "elke_t", t: "meine schüler würden lachen — aber ich wirklich neugierig" },
+          // BLOCO 15 — Por que jejum + low-carb falharam
+          { n: "birgit_w", t: "grundumsatz verlangsamt!! das hat mir nie jemand erklärt" },
+          { n: "petra.k.66", t: "jetzt verstehe ich warum ich nach dem fasten doppelt zugenommen habe" },
+          { n: "HanneloreW", t: "insulin als lieferwagen — sehr anschaulich 👌" },
+          { n: "claudia_h", t: "ohne brot pizza pasta… überlebe ich nicht 😅" },
+          { n: "LaraMHL", t: "rebound effekt habe ich am eigenen körper erlebt" },
+          { n: "sabineHH", t: "ich notiere alles mit, fühle mich endlich verstanden" },
+          // BLOCO 16 — Por que Munjaro é cilada (rebote 5x)
+          { n: "sandra_h", t: "ozempic ersetzt die hormone und der körper produziert nichts mehr ⚠️" },
+          { n: "KerstinDD", t: "5x schwerer nach munjaro abzunehmen?? boah" },
+          { n: "HanneloreW", t: "das müsste auf den beipackzettel" },
+          { n: "DorisM", t: "meine schwester hat genau das durch, kann ich bestätigen" },
+          { n: "Christine_W", t: "die ärzte sagen einem das nicht beim verschreiben, nie" },
+          { n: "brigitte71", t: "jetzt wirds gefährlich, danke für die warnung" },
+          { n: "anna_p.", t: "ich war kurz davor mit munjaro anzufangen, gott sei dank höre ich das heute" },
+          { n: "mama_zwei", t: "das ist warum so viele zurückkommen plus mehr 😞" },
+          // BLOCO 17 — Hafer / Beta-Glucano / metáfora do jardim
+          { n: "silke_mhh", t: "garten mit saurem boden — schöner vergleich" },
+          { n: "iris_dueren", t: "l-zellen schlafen wegen stress und essen, das macht sinn" },
+          { n: "mama_von_3", t: "meine oma hat immer hafer gemacht ❤️ vielleicht wusste sie" },
+          { n: "marion_k", t: "über 40 — also genau ich" },
+          { n: "gabi_kln", t: "hafer hebt den ph-wert? muss ich nachgooglen" },
+          { n: "waltraud_AT", t: "einfach hafer? das wäre fast zu einfach" },
+          { n: "jutta59", t: "weiter, weiter, bin total drin" },
+          // BLOCO 18 — fMRI / estudo 2023
+          { n: "Brigitte_T", t: "studie von 2023 schon, gut zu wissen" },
+          { n: "claudia_h", t: "die gehirne sehen wirklich unterschiedlich aus" },
+          { n: "iris_dueren", t: "journal of clinical endocrinology — ernsthafte quelle" },
+          { n: "ute_b.", t: "mein hausarzt sollte sich das mal anschauen" },
+          { n: "annette_67", t: "bilder vom gehirn überzeugen mich mehr als worte" },
+          // BLOCO 19 — Gengibre / DPP-IV 93%
+          { n: "karinTHH", t: "dpp-vir zerstört die hormone in minuten 😯" },
+          { n: "daniela_k_82", t: "93 prozent blockierung ist absurd hoch" },
+          { n: "petra.k.66", t: "ich trinke ingwertee… aber konzentrat ist was anderes oder?" },
+          { n: "LaraMHL", t: "deswegen brauchen die spritzen so hohe dosen — jetzt verstehe ich" },
+          { n: "AnjaB.", t: "notiere notiere 📝" },
+          { n: "mama_von_3", t: "journal of medicinal food, das google ich gleich" },
+          { n: "silvia_w", t: "asiatische medizin nutzt das seit jahrhunderten, das beruhigt" },
+          // BLOCO 20 — Berberina / AMPK / Yale
+          { n: "gabi_67", t: "stoffwechselschalter — neu für mich aber leuchtet ein" },
+          { n: "HanneloreW", t: "amp k nimmt nach 40 ab… mein alter exakt" },
+          { n: "BeaCH", t: "yale studie 3x mehr fettverlust ohne diät 😳" },
+          { n: "iris_dueren", t: "berberin hab ich von meiner ärztin schon mal gehört" },
+          { n: "mama_von_3", t: "also hafer + ingwer + berberin, hab ich das richtig?" },
+          { n: "petraS59", t: "körper im speichermodus — beschreibt mein leben seit den wechseljahren" },
+          { n: "helga_r", t: "mit 63 dachte ich der zug ist abgefahren… vielleicht doch nicht" },
+          // BLOCO 21 — Meghan close emocional (Lärm des Essens)
+          { n: "jessica_lpz", t: '"lärm des essens weg" 🥺' },
+          { n: "Brigitte_T", t: "1300 dollar pro monat für munjaro… und jetzt natürlich" },
+          { n: "DorisM", t: '"essen ist nicht mehr mein feind" — das ist freiheit' },
+          { n: "CorneliaW", t: "20 jahre krieg mit dem körper, kenne ich ❤️" },
+          { n: "mama_zwei", t: "ich heule grad ein bisschen" },
+          { n: "BettinaWue", t: '"ohne darüber nachzudenken essen" — das ist das ziel' },
+          { n: "Christine_W", t: "das ist nicht abnehmen, das ist seelenarbeit" },
+          // BLOCO 22 — Reinheitsproblem + Bioactive Naturals
+          { n: "annette_67", t: "ah hier kommt es, also nicht ganz zuhause" },
+          { n: "sandra_h", t: "kaufland aldi metro — das wäre zu schön gewesen 😅" },
+          { n: "monika_h", t: "99% in den regalen verdünnt, glaube ich sofort" },
+          { n: "iris_dueren", t: "bioactive naturals kenne ich nicht, aber bfarm beruhigt mich" },
+          { n: "ulrike_kln", t: "25 jahre laboratorium und pharmazeutische qualität — okay" },
+          { n: "birgit_w", t: "gezielte freisetzung in der kapsel… clever" },
+          // BLOCO 23 — Lipojaro + NAD+ + Haut 280%
+          { n: "mama_von_3", t: "lipojaro, der name ist clever 👌" },
+          { n: "HanneloreW", t: "nad+ habe ich von meiner kosmetikerin gehört, anti-aging" },
+          { n: "petra.k.66", t: "haut regeneriert 280% schneller??? 😳" },
+          { n: "Brigitte_T", t: "also nicht nur abnehmen, auch hautstraffung" },
+          { n: "AnjaB.", t: "12 kilo in 30 tagen — wage es zu hoffen" },
+          { n: "anna_p.", t: '"kein ozempic-face" — verkauft sich von selbst' },
+          { n: "mom_43", t: "wann gibt es den link?" },
+          { n: "silke_mhh", t: "ich bleibe bis zum ende dabei" },
+          { n: "nicole_d", t: "das könnte wirklich was sein… bin gespannt auf den preis" }
+        ];
+        var MAXMSGS = 6, ci = 0;
+        var EMO_MARK = ['❤️', '🥹', '💔', '😳', '⚠️', '😔', '😞', '😯'];
+        function hasEmo(t) { for (var i = 0; i < EMO_MARK.length; i++) { if (t.indexOf(EMO_MARK[i]) >= 0) return true; } return false; }
+        function nextChat() { var m = CHAT[ci % CHAT.length]; ci++; return m; }
+        function trimChat() { while (chatEl.childElementCount > MAXMSGS) chatEl.removeChild(chatEl.firstChild); }
+        function ageNewest() {
+          // the previously-newest real message slips to "vor 1 Min" → time keeps moving
+          var times = chatEl.querySelectorAll('.vsl-cmt:not(.vsl-cmt--typing) .vsl-cmt__time');
+          if (times.length) times[times.length - 1].textContent = 'vor 1 Min';
+        }
+        function appendMsg(m) {
+          ageNewest();
+          var row = document.createElement('div');
+          row.className = 'vsl-cmt';
+          row.innerHTML =
+            '<img class="vsl-cmt__av" src="' + avatarFor(m.n) + '" alt="" loading="lazy" decoding="async">' +
+            '<div class="vsl-cmt__b"><div class="vsl-cmt__meta">' +
+              '<span class="vsl-cmt__name">' + m.n + '</span>' +
+              '<span class="vsl-cmt__time">gerade eben</span></div>' +
+            '<div class="vsl-cmt__txt">' + m.t + '</div></div>';
+          chatEl.appendChild(row);
+          trimChat();
+          if (!RM) { if (hasEmo(m.t)) burst(rand(2, 4)); else if (Math.random() < 0.4) emitReaction(); }
+        }
         function addChat() {
           if (!chatEl) return;
-          var m = nextChatMsg();
-          var row = document.createElement('div');
-          row.className = 'vsl-chat__msg';
-          row.innerHTML = '<img class="vsl-chat__av" src="' + (NAME2AV[m.n] || PEOPLE[0].a) + '" alt="" loading="lazy">' +
-            '<div class="vsl-chat__txt"><span class="vsl-chat__name">' + m.n + '</span>' + m.t + '</div>';
-          chatEl.appendChild(row);
-          while (chatEl.childElementCount > 1) chatEl.removeChild(chatEl.firstChild);
-          if (Math.random() < 0.25) emitReaction();
+          var m = nextChat();
+          // ~45% of messages arrive after a brief "schreibt …" beat → real-time feel
+          if (!RM && Math.random() < 0.45) {
+            var ty = document.createElement('div');
+            ty.className = 'vsl-cmt vsl-cmt--typing';
+            ty.innerHTML =
+              '<img class="vsl-cmt__av" src="' + avatarFor(m.n) + '" alt="" loading="lazy">' +
+              '<div class="vsl-cmt__b"><div class="vsl-cmt__meta">' +
+                '<span class="vsl-cmt__name">' + m.n + '</span>' +
+                '<span class="vsl-cmt__time">schreibt…</span></div>' +
+              '<div class="vsl-cmt__bubble"><span></span><span></span><span></span></div></div>';
+            chatEl.appendChild(ty); trimChat();
+            setTimeout(function () { if (ty.parentNode) ty.parentNode.removeChild(ty); appendMsg(m); }, rand(1100, 2100));
+          } else {
+            appendMsg(m);
+          }
         }
-        // Live chat runs from the very first moment — the prospect lands in a room
-        // that's already "alive", which deepens immersion. A short initial beat, then
-        // a self-pacing loop keeps a steady, natural cadence of messages.
-        (function loopChat() { setTimeout(function () { addChat(); loopChat(); }, rand(4500, 8000)); })();
-        setTimeout(addChat, 1200);
+        // The room is already alive the moment the page loads (prime a few), then a
+        // self-pacing loop plays the script as a live timeline that tracks the VSL.
+        (function loopChat() { setTimeout(function () { addChat(); loopChat(); }, rand(3600, 6200)); })();
+        [200, 1100, 2100, 3200].forEach(function (d) { setTimeout(addChat, d); });
 
         function showTyping(person, cb) {
           if (!list || RM) { cb(person); return; }
