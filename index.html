@@ -1269,8 +1269,20 @@
                 s: 'Die deutsche Stoffwechsel-Spezialistin zeigt die <b class="text-[#15181e]">Reihenfolge</b> — solange das Gespräch online ist.'
               }
             };
+            // Map each TikTok Ad ID -> angle, so an ad auto-selects its own headline.
+            // The Ad ID arrives in the URL via TikTok's dynamic macro (pass it as aid=).
+            var AID_MAP = {
+              '1868554376052753': 'spritzen',
+              '1868554374774897': 'ritual',
+              '1868554374775825': 'ozempic'
+            };
             try {
-              var k = (new URLSearchParams(location.search).get('hl') || '').toLowerCase();
+              var qs = new URLSearchParams(location.search);
+              var k = (qs.get('hl') || '').toLowerCase();           // manual override wins
+              if (!k) {
+                var aid = qs.get('aid') || qs.get('ttaid') || qs.get('ad_id') || '';
+                if (aid && AID_MAP[aid]) k = AID_MAP[aid];
+              }
               if (k && V[k]) {
                 var h = document.getElementById('lpHeadline'), s = document.getElementById('lpSubhead');
                 if (h) h.innerHTML = V[k].h;
