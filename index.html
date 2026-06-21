@@ -116,6 +116,7 @@
     }
 
     .esconder { display: none; }
+    .lj-warm { display: none; }   /* invisible sentinel revealed by VTurb at the "warm" gate */
     .dflex { display: flex; }
 
     /* Perf: skip layout/paint of offscreen sections until needed */
@@ -984,6 +985,10 @@
     .vsl-cue b { color: var(--urgent); font-weight: 800; }
     .vsl-cue__ico { flex: 0 0 auto; width: 18px; height: 18px; color: var(--urgent); }
     .vsl-cue.is-hidden { opacity: 0; transform: translateY(-6px); max-height: 0; margin: 0 auto; padding: 0 14px; border-width: 0; box-shadow: none; pointer-events: none; }
+    /* Escalated curiosity nudge for visitors who haven't pressed play yet */
+    .vsl-cue--nudge { border-color: var(--urgent); animation: vsl-cue-attn 1.1s ease-in-out 3; }
+    @keyframes vsl-cue-attn { 0%, 100% { box-shadow: 0 4px 14px rgba(8, 11, 16, .05); } 50% { box-shadow: 0 0 0 4px rgba(224, 16, 58, .16); } }
+    @media (prefers-reduced-motion: reduce) { .vsl-cue--nudge { animation: none; } }
 
     /* Reserve the 16:9 video box up-front so the player can't shift layout (CLS) */
     .vsl-stage vturb-smartplayer { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 15px; overflow: hidden; box-shadow: 0 18px 44px rgba(8, 11, 16, .15), 0 2px 8px rgba(8, 11, 16, .06), 0 0 0 1px rgba(8, 11, 16, .04); }
@@ -1364,6 +1369,8 @@
           </div>
           <div class="vsl-lc__list" id="vslChat" aria-live="polite"></div>
         </aside>
+        <!-- Invisible "warm" sentinel: VTurb reveals it ~10 min before the pitch -->
+        <div id="ljWarmGate" class="lj-warm" aria-hidden="true"></div>
         <script type="text/javascript"> var s = document.createElement("script"); s.src = "https://scripts.converteai.net/13e4d193-3f66-46ab-8eb0-6e6da4bd133b/players/6a370ffe033aab84a759584b/v4/player.js", s.async = !0, document.head.appendChild(s); </script>
 
         <!-- Vídeo vturb -->
@@ -1375,15 +1382,23 @@
           // Adjust the time in seconds and minutes on your VSL.
           // ===================================================
           var SECONDS_TO_DISPLAY = 2533; // Pitch reveal at 42:13 (42*60+13)
+          // "Warm" gate ~10 min before the pitch. A viewer who reaches it has connected
+          // with the pain/problem — only THEN does an exit route them to the quiz (the
+          // short path to the solution). Cold/early viewers are nudged to play instead.
+          var WARM_SECONDS = Math.max(0, SECONDS_TO_DISPLAY - 600);
 
           // Hide the "tap to start with sound" cue the moment the video actually plays.
           function hideCue() { var c = document.getElementById('vslCue'); if (c) c.classList.add('is-hidden'); }
+          function markPlayed() { window.__ljPlayed = true; hideCue(); }
 
           function waitForPlayer() {
             const player = document.querySelector("vturb-smartplayer");
             if (player) {
               clearInterval(checkInterval);
               player.addEventListener("player:ready", () => {
+                // Warm sentinel first; the critical pitch reveal is registered LAST so it
+                // can never be clobbered if the player only honours the final call.
+                try { player.displayHiddenElements(WARM_SECONDS, [".lj-warm"], { persist: true }); } catch (e) {}
                 player.displayHiddenElements(SECONDS_TO_DISPLAY, [".esconder"], { persist: true });
                 // Start the reservation countdown exactly when the offer is revealed.
                 if (window.CBSLive) window.CBSLive.onOfferReveal();
@@ -1391,17 +1406,27 @@
                 // (fixes the load-order race where the param wasn't injected on first paint).
                 if (window.__bgSubid5Sweep) window.__bgSubid5Sweep();
               });
-              // Collapse the audio cue as soon as playback begins (any of VTurb's play events).
+              // Mark "played" + collapse the audio cue on any of VTurb's play events.
               ['play', 'player:play', 'playing', 'player:start'].forEach(function (ev) {
-                try { player.addEventListener(ev, hideCue); } catch (e) {}
+                try { player.addEventListener(ev, markPlayed); } catch (e) {}
               });
               // Tapping the cue nudges the player to start; tapping the player counts too.
               var cue = document.getElementById('vslCue');
-              if (cue) cue.addEventListener('click', function () { try { player.play && player.play(); } catch (e) {} hideCue(); });
+              if (cue) cue.addEventListener('click', function () { try { player.play && player.play(); } catch (e) {} markPlayed(); });
               var stage = document.querySelector('.vsl-stage');
-              if (stage) stage.addEventListener('pointerdown', hideCue, { once: true });
+              if (stage) stage.addEventListener('pointerdown', markPlayed, { once: true });
             }
           }
+
+          // Non-player rescue: after a short wait with no play, escalate the cue to a
+          // curiosity hook to pull the visitor into pressing play (lifts play rate).
+          setTimeout(function () {
+            var c = document.getElementById('vslCue');
+            if (!c || window.__ljPlayed || c.classList.contains('is-hidden')) return;
+            var t = c.querySelector('span');
+            if (t) t.innerHTML = 'Die <b>Reihenfolge der 3 Zutaten</b> ändert alles — tippen Sie auf das Video';
+            c.classList.add('vsl-cue--nudge');
+          }, 12000);
 
           const checkInterval = setInterval(waitForPlayer, 200);
         </script>
@@ -1979,6 +2004,26 @@
         }
         var dtcWatch = setInterval(dtcCheck, 250);
         dtcCheck();
+
+        // "Warm" gate watcher: when VTurb reveals the invisible sentinel (~10 min before
+        // the pitch), flag the visitor as warm so an exit routes them to the quiz.
+        var warmEl = document.getElementById('ljWarmGate');
+        function warmCheck() {
+          if (warmEl && warmEl.offsetParent !== null) {
+            window.__ljWarm = true;
+            clearInterval(warmWatch);
+            if (warmMO) { try { warmMO.disconnect(); } catch (e) {} }
+            return true;
+          }
+          return false;
+        }
+        var warmMO = null;
+        if (window.MutationObserver && warmEl) {
+          warmMO = new MutationObserver(function () { warmCheck(); });
+          try { warmMO.observe(warmEl, { attributes: true, attributeFilter: ['style', 'class'] }); } catch (e) {}
+        }
+        var warmWatch = setInterval(warmCheck, 1000);
+        warmCheck();
 
         /* ---- 3) "just reserved" toasts (live social proof, drive stock) ---- */
         var wrap = $('#lvtWrap');
@@ -2680,9 +2725,10 @@
       }
       function open() {
         if (used()) return false;
-        // After the DTC is revealed, abandoners get the personalised-formula quiz
-        // takeover instead of the simple nudge; before that, the light nudge.
-        if (revealed() && window.__ljQuiz) { markUsed(); window.__ljQuiz.open(); return true; }
+        // Warm viewers (reached ~10 min before the pitch) OR post-pitch abandoners get the
+        // personalised-formula quiz — the short path to the solution, only once the visitor
+        // has connected with the pain. Cold/early viewers get the light keep-watching nudge.
+        if ((revealed() || window.__ljWarm) && window.__ljQuiz) { markUsed(); window.__ljQuiz.open(); return true; }
         build(); fill();
         el.classList.add('is-open'); el.setAttribute('aria-hidden', 'false');
         markUsed();
