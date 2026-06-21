@@ -241,12 +241,24 @@
     }
 
     .cbs-eyebrow__kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       color: var(--brand);
       font-weight: 800;
       font-size: 12px;
       letter-spacing: .14em;
       text-transform: uppercase;
       font-family: 'Open Sans', Arial, sans-serif;
+    }
+
+    .cbs-eyebrow__kicker::before {
+      content: "";
+      width: 16px;
+      height: 3px;
+      border-radius: 2px;
+      background: var(--urgent);
+      flex: 0 0 auto;
     }
 
     .cbs-eyebrow__date {
@@ -471,10 +483,16 @@
     .livebar {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin: 7px auto 9px;
-      font-size: 13px;
+      gap: 9px;
+      width: max-content;
+      max-width: 100%;
+      margin: 9px auto 11px;
+      padding: 6px 15px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      box-shadow: var(--shadow-soft);
+      font-size: 12.5px;
       color: #333;
       font-family: 'Open Sans', Arial, sans-serif;
     }
@@ -968,7 +986,7 @@
     .vsl-cue.is-hidden { opacity: 0; transform: translateY(-6px); max-height: 0; margin: 0 auto; padding: 0 14px; border-width: 0; box-shadow: none; pointer-events: none; }
 
     /* Reserve the 16:9 video box up-front so the player can't shift layout (CLS) */
-    .vsl-stage vturb-smartplayer { display: block; width: 100%; aspect-ratio: 16 / 9; }
+    .vsl-stage vturb-smartplayer { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 15px; overflow: hidden; box-shadow: 0 18px 44px rgba(8, 11, 16, .15), 0 2px 8px rgba(8, 11, 16, .06), 0 0 0 1px rgba(8, 11, 16, .04); }
 
     .vsl-badge {
       position: absolute;
@@ -1221,6 +1239,7 @@
       <!-- Interview hook headline (above the VSL — leads into the player) -->
       <div class="px-4 pt-2 pb-2 max-w-3xl mx-auto">
         <div class="cbs-eyebrow">
+          <span class="cbs-eyebrow__kicker">Exklusiv-Reportage</span>
           <span class="cbs-eyebrow__date data_atual"></span>
         </div>
         <h1 class="headline-serif text-[26px] md:text-[38px] leading-[1.15] mb-0">
