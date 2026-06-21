@@ -1280,8 +1280,21 @@
               var qs = new URLSearchParams(location.search);
               var k = (qs.get('hl') || '').toLowerCase();           // manual override wins
               if (!k) {
-                var aid = qs.get('aid') || qs.get('ttaid') || qs.get('ad_id') || '';
-                if (aid && AID_MAP[aid]) k = AID_MAP[aid];
+                // TikTok's real Ad ID (__CID__) often arrives only inside utm_content
+                // (e.g. utm_content=AdName|1868554376052753). Collect every id-ish value
+                // — plain params AND the pieces around a "|" — then match the map, so it
+                // works whether the id lands clean or pipe-encoded.
+                var cands = [];
+                ['aid', 'ttaid', 'ad_id', 'cid', 'adid', 'adset', 'wr'].forEach(function (p) {
+                  var v = qs.get(p); if (v) cands.push(v);
+                });
+                ['utm_content', 'utm_medium', 'utm_campaign'].forEach(function (p) {
+                  var v = qs.get(p); if (v) v.split('|').forEach(function (x) { cands.push(x); });
+                });
+                for (var i = 0; i < cands.length; i++) {
+                  var c = (cands[i] || '').trim();
+                  if (AID_MAP[c]) { k = AID_MAP[c]; break; }
+                }
               }
               if (k && V[k]) {
                 var h = document.getElementById('lpHeadline'), s = document.getElementById('lpSubhead');
